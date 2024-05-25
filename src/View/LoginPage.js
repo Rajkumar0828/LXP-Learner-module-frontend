@@ -87,6 +87,7 @@ const Loginpage = () => {
               <div className='button-login'>
                 <button className='btn' >Login</button>
               </div>
+              <Link to={'/RegisterView'} >Create a new account</Link>
             </form>
           </div>
         </div>

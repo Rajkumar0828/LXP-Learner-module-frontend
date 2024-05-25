@@ -11,6 +11,12 @@ import apiDeletecourse from '../middleware/Admin/apiDeletecourse';
 import DeletecourseReducer from '../reducers/Admin/DeletecourseReducer';
 import UpdateCourse from '../middleware/Admin/apiUpdatecourse';
 import courseupdateReducer from '../reducers/Admin/Updatecourse';
+import LearnerReducer from '../reducers/LearnerReducer/Registerreducer';
+import {RegisterApi}   from '../middleware/LearnerMiddleware/RegisterApi';
+import emailReducer from '../reducers/LearnerReducer/FetchEmailReducer';
+import fetchEmailApi from '../middleware/LearnerMiddleware/FetchEmailApi';
+import OTPReducer from '../reducers/LearnerReducer/OTPReducer';
+import VerifyEmailApi from '../middleware/LearnerMiddleware/VerifyEmailApi';
 
 const rootReducer = combineReducers({
   forgotPassword: ForgotPasswordreducer,
@@ -19,13 +25,16 @@ const rootReducer = combineReducers({
   allcourse: AllcourseReducer,
   deletecourse: DeletecourseReducer,
   updatecourse:courseupdateReducer,
+  learner:LearnerReducer,
+  email:emailReducer,
+  otp:OTPReducer
 });
 
 
 const store = createStore(
 
   rootReducer,
-  applyMiddleware(thunk, apiMiddleware,apiviewallcourse,loginUser,apiDeletecourse,UpdateCourse)
+  applyMiddleware(thunk, apiMiddleware,apiviewallcourse,loginUser,apiDeletecourse,UpdateCourse,RegisterApi,fetchEmailApi,VerifyEmailApi)
 );
 
 export default store;
