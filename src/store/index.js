@@ -11,12 +11,25 @@ import apiDeletecourse from '../middleware/Admin/apiDeletecourse';
 import DeletecourseReducer from '../reducers/Admin/DeletecourseReducer';
 import UpdateCourse from '../middleware/Admin/apiUpdatecourse';
 import courseupdateReducer from '../reducers/Admin/Updatecourse';
-import LearnerReducer from '../reducers/LearnerReducer/Registerreducer';
-import {RegisterApi}   from '../middleware/LearnerMiddleware/RegisterApi';
-import emailReducer from '../reducers/LearnerReducer/FetchEmailReducer';
-import fetchEmailApi from '../middleware/LearnerMiddleware/FetchEmailApi';
-import OTPReducer from '../reducers/LearnerReducer/OTPReducer';
-import VerifyEmailApi from '../middleware/LearnerMiddleware/VerifyEmailApi';
+import AllLearnerReducer from '../reducers/AllLearnerReducer';
+import apiViewAllLearners from '../middleware/apiViewAllLearners';
+import ProfileCardReducer from '../reducers/Admin/IndividualLearnerReducer';
+import GetProfileCard from '../middleware/Admin/apiIndividualLearners';
+import ProfileCoursesReducer from '../reducers/Admin/ProfileCoursesReducers';
+import GetProfileCourses from '../middleware/Admin/apiProfileCourses';
+import LastEnrolledCourseReducer from '../reducers/Admin/LastEnrolledCourseReducer';
+import LastEnrolledCourse from '../middleware/Admin/apiLastEnrolledCourse';
+import EnableDisableCourseReducer from '../reducers/Admin/EnableDisbaleCourseReducer';
+import EnableDisableCourse from '../middleware/Admin/apiEnableDisbaleCourse';
+import fetchDataReducer from '../reducers/DashboardReducer';
+import FetchdashboardData from '../middleware/apiDashboard';
+
+
+import LearnerGetCourseReducer from '../reducers/Learner/LearnerGetCourseReducer';
+import LearnerGetCourse from '../middleware/Learner/LearnerGetCourse';
+
+import LearnerPostEnrollReducer from '../reducers/Learner/LearnerPostEnrollReducer';
+import LearnerPostEnroll from '../middleware/Learner/LearnerPostEnroll';
 
 const rootReducer = combineReducers({
   forgotPassword: ForgotPasswordreducer,
@@ -24,18 +37,20 @@ const rootReducer = combineReducers({
   course: courseReducer,
   allcourse: AllcourseReducer,
   deletecourse: DeletecourseReducer,
-  updatecourse:courseupdateReducer,
-  learner:LearnerReducer,
-  email:emailReducer,
-  otp:OTPReducer
+  updatecourse: courseupdateReducer,
+  alllearner: AllLearnerReducer,
+  profilecard: ProfileCardReducer,
+  profilecourses: ProfileCoursesReducer,
+  enrolledcourse: LastEnrolledCourseReducer,
+  enabledisablecourse: EnableDisableCourseReducer,
+  fetchdashboard: fetchDataReducer,
+  fetchcourse: LearnerGetCourseReducer,
+  enrolledCourses:LearnerPostEnrollReducer,
 });
 
-
 const store = createStore(
-
   rootReducer,
-  applyMiddleware(thunk, apiMiddleware,apiviewallcourse,loginUser,apiDeletecourse,UpdateCourse,RegisterApi,fetchEmailApi,VerifyEmailApi)
+  applyMiddleware(thunk, apiMiddleware, apiviewallcourse, loginUser, apiDeletecourse, UpdateCourse, apiViewAllLearners, GetProfileCard, GetProfileCourses, LastEnrolledCourse, EnableDisableCourse, FetchdashboardData,LearnerGetCourse,LearnerPostEnroll)
 );
 
 export default store;
-
