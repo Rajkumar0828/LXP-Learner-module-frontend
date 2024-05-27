@@ -1,0 +1,30 @@
+{
+    "users": {
+      "firstName": "",
+      "lastName": "",
+      "gender": "",
+      "dob": "",
+      "email": "",
+      "otp": "",
+      "contactNumber": "",
+      "password": "",
+      "confirmPassword": "",
+      "selectedOptions": []
+
+    },
+
+
+
+    "pdfs": [
+      {
+        "id": 1,
+        "url": "D:/Rubanupdateprofilefinal22/src/PDF/Batch 2 - Capstone Requirement Document.pdf"
+      },
+      {
+        "id": 2,
+        "url": "path/to/your/pdf2.pdf"
+      }
+     
+    ]
+    
+}
