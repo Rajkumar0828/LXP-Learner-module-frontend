@@ -48,8 +48,9 @@ export default function Register() {
         otp: '',
         contactNumber: '',
         password: '',
-        confirmPassword: '',
         stream: '',
+        role:'Learner',
+       
     });
 
     const handlePasswordIconHover = () => {
@@ -184,9 +185,18 @@ export default function Register() {
             const streamString = Array.isArray(userData.stream) ? userData.stream.map(option => option.value).join(', ') : userData.stream;
 
             // Create a copy of userData with the stream field as a string
-            const userDataStringStream = { ...userData, stream: streamString };
+            const updatedUserData = {
+                ...userData,
+                stream: userData.stream.map(option => option.value).join(", ")
+              };
+             
+             
+            console.log("in handle submit", updatedUserData);
+   
+            // Dispatch the action with the updated user data
+            dispatch(userDataRequest(updatedUserData));
 
-            console.log("in handle submit", userDataStringStream);
+            console.log("in handle submit", updatedUserData);
         //    registerUser(userDataStringStream);
             setShowModal(true);
             setShowSuccessAlert(true);
@@ -235,7 +245,7 @@ export default function Register() {
                                         {errors.contactNumber && <div className="text-danger">{errors.contactNumber}</div>}
                                     </div>
                                     <div class="form-group d-flex">
-                                        <input type="email" class="form-control" placeholder="Your Email *" value={userData.email} name="email" onChange={handleChange} disabled={showOTP} />
+                                        <input type="email" class="form-control" placeholder="Your Email *" value={userData.email} name="email" onChange={handleChange} disabled={showOTP || emailVerified} />
                                         {emailVerified && <span className="text-success">&#10004;</span>}
                                         {!showOTP && !emailVerified && email.trim() !== '' && (<button className='btn btn-primary ms-1 otp' onClick={handleSendOTP}><a>Send OTP</a></button>)}
                                     </div >

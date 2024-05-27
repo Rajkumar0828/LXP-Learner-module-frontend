@@ -14,6 +14,13 @@ import Home from '../View/Home';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import RegisterView from '../View/LearnerView/RegisterView';
+import LearnerDashboard from '../components/LearnerComponent/LearnerDashboard';
+import LearnerNavbar from '../components/LearnerComponent/LearnerNavbar';
+import CourseNavbar from '../components/LearnerComponent/CourseNavbar';
+import GetEnrollment from '../components/LearnerComponent/GetEnrollment';
+
+import PDFViewer from '../components/LearnerComponent/PDFViewer';
+ import SidebarTopics from '../components/LearnerComponent/SidebarTopics';
 
 function Routing() {
   // const DrawerHeader = styled('div')(({ theme }) => ({
@@ -31,6 +38,16 @@ function Routing() {
       <Route path="/email" element={<Email />} />
       <Route path="/forgotpassword" element={<ForgotPassword />}/>
       <Route path='/RegisterView' element={<RegisterView/>}></Route>
+      <Route path='/LearnerDashboard' element={<LearnerDashboard/>}></Route>
+      <Route path='/LearnerNavbar' element={<LearnerNavbar/>}></Route>
+      <Route path='/LearnerPage' element={<CourseNavbar/>}></Route>
+     
+      <Route path="/LearnerenrolledCourse" element={<GetEnrollment/>}></Route>
+
+      <Route path="/ViewTopics" element={<SidebarTopics/>}></Route>
+
+      <Route path="/PDF" element={<PDFViewer/>}></Route>
+
       <Route element={<Adminrouting />}> 
         <Route path="/home" element={<Admindashboard />} />
         <Route path="/admincourse" element={<Admincourse />} />
@@ -40,6 +57,7 @@ function Routing() {
         {/* <Route path="/learnerviewall"element={<LearnerReduxView />} ></Route> */}
         {/* <Route path="/individuallearner/:learnerId" element={<IndividualLearner />}></Route> */}
         {/* <Route path="/LearnerReport" element={<LearnerReportView/>}></Route> */}
+        
       </Route>
 
     </Routes>

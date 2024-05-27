@@ -44,7 +44,7 @@ hr.h-color {
         margin-left: 0;
     }
 } */
-.navigationbar {
+/* .navigationbar {
     background-color: #272356;
 }
 
@@ -67,4 +67,4 @@ hr.h-color {
         margin: 0 auto; /* Center the image on smaller screens */
         display: block; /* Change display to block for smaller screens */
     }
-}
+} 
