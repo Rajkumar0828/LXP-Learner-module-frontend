@@ -75,7 +75,7 @@ function SidebarTopics() {
   };
   const toggleType = (folderIndex, topicIndex, typeIndex, e) => {
     e.stopPropagation();
-    console.log("oo")
+    console.log("PDF")
     const updatedFolders = [...folders];
     
     if (updatedFolders[folderIndex].topics[topicIndex].materialType[typeIndex].isOpen) {
@@ -93,26 +93,26 @@ function SidebarTopics() {
   const handleFileClick = (file) => {
     switch (file) {
       case "PPT":
-        // console.log("ppt")
-        // Set the component for PPT
+  //       // console.log("ppt")
+  //       // Set the component for PPT
         break;
       case "PDF":
-        setSelectedComponent(<PDFViewer Document={"k"}/>);
+        setSelectedComponent(<PDFViewer Document={"d"}/>);
 
-        // setSelectedComponent( <a href="">{pdf.length > 0 && pdf[0].name}</a>);
+  //       // setSelectedComponent( <a href="">{pdf.length > 0 && pdf[0].name}</a>);
 
-        // navigate('/PDF');
-        // setSelectedComponent(
-        //   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        //     {/* navigate('/PDF'); */}
-        //     {/* <Route file={'/PDF'} onLoadSuccess={onDocumentLoadSuccess}>
-        //       <Page pageNumber={pageNumber} />
-        //     </Route> */}
-        //   </div>
-        // );
+  //       // navigate('/PDF');
+  //       // setSelectedComponent(
+  //       //   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+  //       //     {/* navigate('/PDF'); */}
+  //       //     {/* <Route file={'/PDF'} onLoadSuccess={onDocumentLoadSuccess}>
+  //       //       <Page pageNumber={pageNumber} />
+  //       //     </Route> */}
+  //       //   </div>
+  //       // );
         break;
       case "AssessmentEvaluation1.2":
-        // Set the component for AssessmentEvaluation1.2
+  //       // Set the component for AssessmentEvaluation1.2
         break;
       default:
         setSelectedComponent(null);
@@ -168,9 +168,9 @@ function SidebarTopics() {
           </a>
           {/* <button type="button" class="btn btn-primary">Back</button> */}
 
-          <Link className="btn btn-primary" to={`/Enrollmy`}>
+          {/* <Link className="btn btn-primary" to={`/Enrollmy`}>
             Back
-          </Link>
+          </Link> */}
         </div>
       </nav>
       <div className="d-flex">
