@@ -27,6 +27,12 @@ import LearnerPostEnroll from '../middleware/LearnerMiddleware/LearnerPostEnroll
  import enrollApi from "../middleware/LearnerMiddleware/EnrollCourseApi";
  import enrollmentReducer from "../reducers/LearnerReducer/EnrollmentReducer";
 import fetchPdfReducer from '../reducers/LearnerReducer/FetchPdfReducer';
+import GetUserProfileReducer from '../reducers/LearnerReducer/GetUserProfileReducer';
+import fetchProfileData from '../middleware/LearnerMiddleware/GetUserProfileMiddleware';
+import UpdateUserProfileReducer from '../reducers/LearnerReducer/UpdateUserProfileReducer';
+import { updateUserData } from '../middleware/LearnerMiddleware/UpdateUserProfileMiddleware';
+import PasswordChangeReducer from '../reducers/LearnerReducer/PasswordChangeReducer';
+import updatePasswordApi from '../middleware/LearnerMiddleware/PasswordChangeApi';
 
 
 
@@ -35,6 +41,8 @@ import fetchPdfReducer from '../reducers/LearnerReducer/FetchPdfReducer';
 
 
 const rootReducer = combineReducers({
+  passwordChangeReducer:PasswordChangeReducer,
+  updateuserprofile: UpdateUserProfileReducer,
   forgotPassword: ForgotPasswordreducer,
   user: userReducer,
   course: courseReducer,
@@ -47,14 +55,16 @@ const rootReducer = combineReducers({
   fetchcourse: LearnerGetCourseReducer,
   enrolledCourses:LearnerPostEnrollReducer,
   fetchPdf: fetchPdfReducer,
-  enroll: enrollmentReducer
+  enroll: enrollmentReducer,
+  getUseProfile:GetUserProfileReducer
+  
 });
 
 
 const store = createStore(
 
   rootReducer,
-  applyMiddleware(thunk, apiMiddleware,apiviewallcourse,loginUser,apiDeletecourse,UpdateCourse,RegisterApi,fetchEmailApi,VerifyEmailApi,LearnerGetCourse,LearnerPostEnroll,enrollApi)
+  applyMiddleware(thunk, fetchProfileData, updateUserData,updatePasswordApi, apiMiddleware,apiviewallcourse,loginUser,apiDeletecourse,UpdateCourse,RegisterApi,fetchEmailApi,VerifyEmailApi,LearnerGetCourse,LearnerPostEnroll,enrollApi,)
 );
 
 export default store;
