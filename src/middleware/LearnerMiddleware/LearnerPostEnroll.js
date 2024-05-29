@@ -1,11 +1,12 @@
-import { enrollRequest, enrollSuccess, enrollFailure } from '../../actions/LearnerAction/LearnerPostEnrollAction';
-
+import { enrollRequest, enrollSuccess, enrollFailure } from '..//../actions/LearnerAction/LearnerPostEnrollAction';
+ 
 export default function LearnerPostEnroll({ dispatch, getState }) {
     return (next) => (action) => {
         next(action);
-
+ 
         if (action.type === enrollRequest().type) {
-            const { courseId, learnerId } = action;
+            const { courseId } = action;
+            const learnerId = sessionStorage.getItem('UserSessionID'); // Retrieve learner ID from session storage
             const enrollmentEndpoint = "http://localhost:5199/lxp/enroll";
             const request = {
                 method: "POST",
@@ -14,14 +15,13 @@ export default function LearnerPostEnroll({ dispatch, getState }) {
                 },
                 body: JSON.stringify({
                     courseId: courseId,
-                    learnerId: 'd7b792f7-9432-4bfa-ad51-33c07a974916', // Use learnerId from action
+                    learnerId: learnerId,
                     enrollmentDate: new Date().toISOString(),
                     enrollStatus: true,
                     enrollRequestStatus: true,
                 }),
             };
-
-            
+ 
             fetch(enrollmentEndpoint, request)
                 .then((response) => {
                     if (response.ok) {

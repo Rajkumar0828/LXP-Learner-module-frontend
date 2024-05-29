@@ -1,4 +1,4 @@
-.panel {
+/* .panel {
     border: 1px solid #796058;
     border-radius:0;
     transition: box-shadow 1.5s;
@@ -34,7 +34,7 @@
     /* width: 30rem;
     height:6rem;
     margin-top: 6px; */
-  }
+  /* }
   .panel-footer {
     background-color:#fff !important;
   }
@@ -49,7 +49,7 @@
     margin: 15px 0;
     background-color: #27235C;
     color: #fff;
-  }
+  } */
   /* body{
     background-color: #5c1e42;
   } */
@@ -61,4 +61,15 @@
     box-shadow: 10px 10px 10px 10px gray;
     margin-right: 25%;
   } */
-  
+   
+.course-container{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.course-card{
+
+  display: flex;
+  width: 10px;
+
+}

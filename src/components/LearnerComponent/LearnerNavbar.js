@@ -22,6 +22,7 @@ import logo from '..//../assets/logo.png';
 import '..//../Styles/Learner/LearnerNavbar.css';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import { red } from '@mui/material/colors';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
@@ -29,7 +30,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useState, useEffect } from 'react';
 
-
+const learnerId = sessionStorage.getItem('UserSessionID')
 
 
 function stringToColor(string) {
@@ -157,56 +158,56 @@ export default function MiniDrawer() {
     setAnchorEl(null);
   };
   return (
-    
+
     <Box sx={{ display: 'flex' }} className='bar'>
       <CssBaseline />
       <AppBar position="fixed" open={open} className='bar'>
-        <div style={{backgroundColor:'#27235C'}}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <a className="navbar-brand" href="Relevantz"><img src={logo} alt="Relevantz Logo" className='navbar-imaged' /></a>
-          <div className='navbar-name'><h5>Learning Experience Platform</h5></div>
-          <Typography variant="h6" noWrap component="div">
-          <Stack direction="row" alignItems="center" className='avatar' spacing={2}>
-      <Avatar {...stringAvatar('Priyadharshini Murugan')}
-        sx={{ cursor: 'pointer' }} 
-        onMouseEnter={handleMenuOpen} 
-      />
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleMenuClose}
-      >
-        <MenuItem onClick={handleMenuClose}>Edit Profile</MenuItem>
-        <MenuItem onClick={handleMenuClose}>Reset Password</MenuItem>
-        <MenuItem onClick={handleMenuClose}>Log Out</MenuItem>
-      </Menu>
-    </Stack>
-          </Typography>
-       
-        </Toolbar>
+        <div style={{ backgroundColor: '#27235C' }}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: 5,
+                ...(open && { display: 'none' }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <a className="navbar-brand" href="Relevantz"><img src={logo} alt="Relevantz Logo" className='navbar-imaged' /></a>
+            <div className='navbar-name'><h5>Learning Experience Platform</h5></div>
+            <Typography variant="h6" noWrap component="div">
+              <Stack direction="row" alignItems="center" className='avatar' spacing={2}>
+                <Avatar {...stringAvatar('Priyadharshini Murugan')}
+                  sx={{ cursor: 'pointer' }}
+                  onMouseEnter={handleMenuOpen}
+                />
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}
+                >
+                  <MenuItem onClick={handleMenuClose}>Edit Profile</MenuItem>
+                  <MenuItem onClick={handleMenuClose}>Reset Password</MenuItem>
+                  <MenuItem onClick={handleMenuClose}>Log Out</MenuItem>
+                </Menu>
+              </Stack>
+            </Typography>
+
+          </Toolbar>
         </div>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={open} >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
 
-        <List>
-          {['Mycourse'].map((text, index) => (
+        <List >
+          {['Courses','MyCourse','Scores'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{

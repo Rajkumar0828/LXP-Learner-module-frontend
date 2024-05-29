@@ -13,9 +13,59 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
+import { useEffect, useState } from 'react';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { fetchCoursesRequest } from '../../actions/LearnerAction/LearnerGetCourseAction';
+import { enrollRequest } from '../../actions/LearnerAction/LearnerPostEnrollAction';
+import '../../Styles/Learner/LearnerCourse.css';
+import { FetchuserDataRequest } from '../../actions/LearnerAction/FetchRegisterAction';
 
 
-const style = {
+
+
+const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
+  const courses = useSelector((state) => state.fetchcourse.courses);
+  const dispatch = useDispatch();
+  // const [filteredCourses, setFilteredCourses] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const selectedStream = useSelector((state) => state.fetchlearner.userData);
+  console.log("Selected", selectedStream);
+  const filteredCourses = courses.filter(course => course.title === selectedStream);
+
+  console.log("dashboard", enrolledCourses)
+
+  const learnerId = sessionStorage.getItem('UserSessionID') // Retrieve learner ID from session storage
+  console.log('learnerid', learnerId);
+
+  useEffect(() => {
+
+    dispatch(fetchCoursesRequest());
+    dispatch(FetchuserDataRequest(learnerId))
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   setFilteredCourses(
+  //     courses.filter(course =>
+  //       course.title.toLowerCase().includes(search.toLowerCase())
+  //     )
+  //   );
+  // }, [search, courses]);
+
+
+
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = (course) => {
+    setOpen(true);
+    setSelectedCourse(course);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -27,80 +77,125 @@ const style = {
     pt: 2,
     px: 4,
     pb: 3,
-};
+  };
 
 
+  const handleEnrollCourse = (courseId) => {
+
+    const maxCourses = 3;
+    const learnerCourses = enrolledCourses.filter(course => course.learnerId === learnerId);
+
+    if (learnerCourses.length >= maxCourses) {
+      alert('You have reached the course enrollment limit!');
+      return;
+    }
+
+    const alreadyEnrolled = enrolledCourses.some(course => course.courseId === courseId && course.learnerId === learnerId);
+
+    if (alreadyEnrolled) {
+      alert('You have already enrolled in this course!');
+      return;
+    }
+
+    dispatch(enrollRequest(courseId, learnerId));
+  };
+
+  const isEnrolled = (courseId) => {
+    if (!Array.isArray(enrolledCourses)) {
+      console.error("enrolledCourses is not an array", enrolledCourses);
+      return false;
+    }
+    return enrolledCourses.some(course => course.courseId === courseId && course.learnerId === learnerId);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // if (filteredCourses.length === 0) {
+  //   return <div><h3>No results found.</h3></div>;
+  // }
 
 
+  return (
+    <div>
+      <LearnerNavbar />
 
-export default function Dashboard() {
-
-
-    // const darkTheme = createTheme({
-    //     palette: {
-    //         mode: 'dark',
-    //     },
-    // });
-
-    const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-
-    return (
-        <div>
-            <LearnerNavbar />
-            <Card sx={{ display: 'flex', width:600, marginLeft:30 }} className='course-card'>
+      <div className="container-fluid Servicemain">
+        <div className="row course-container" >
+          {courses.map((course, index) => (
+            <div className="col-sm-6" key={index} >
+              <Card sx={{ display: 'flex', width: 450, marginLeft: 10, marginTop: 15, color: 'grey' }} >
                 <CardMedia
-                    className='course-card'
-                    component="img"
-                    sx={{ width: 100 }}
-                    image="/static/images/cards/live-from-space.jpg" // Replace with course thumbnail
-                    alt="Course thumbnail"
+
+                  component="img"
+                  sx={{ width: 80, marginLeft: 5 }}
+                  image={course.thumbnailimage}
+                  alt={course.title}
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                    <CardContent sx={{ flex: '1 0 auto' }}>
-                        <Typography component="div" variant="h5">
-                            Course Title
-                        </Typography>
-                        <Typography variant="subtitle1" color="text.secondary" component="div">
-                            Course Author
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" component="div">
-                            Short description of the course...
-                        </Typography>
-                        <Button onClick={handleOpen}>View More</Button>
-                    </CardContent>
+                  <CardContent sx={{ flex: '1 0 auto', marginLeft: 10 }}>
+                    <Typography component="div" variant="h5" >
+                      Course: {course.title}
+                    </Typography>
+                    <Typography variant="subtitle1" color="text.secondary" component="div">
+                      Level: {course.level}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" component="div">
+                      Category: {course.category}
+                    </Typography>
+                    <Button onClick={() => handleOpen(course)}>View More</Button>
+                  </CardContent>
                 </Box>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="course-modal-title"
-                    aria-describedby="course-modal-description"
-                >
-                    <Box sx={{ ...style }}>
-                        <h2 id="course-modal-title">Full Course Description</h2>
-                        <p id="course-modal-description">
-                            Full description of the course...
-                        </p>
-                        <Stack direction="row" spacing={2}>
-                            <Button onClick={handleClose}>Close</Button>
-                            <Button variant="contained" onClick={() => alert('Enrolled successfully!!')}>
-                                Enroll
-                            </Button>
-                        </Stack>
-                    </Box>
-                </Modal>
-            </Card>
+              </Card>
+              <Modal
+                open={open && selectedCourse && selectedCourse.courseId === course.courseId}
+                onClose={handleClose}
+                aria-labelledby="course-modal-title"
+                aria-describedby="course-modal-description"
+              >
+                <Box sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: 400,
+                  bgcolor: 'background.paper',
+                  border: '2px solid #000',
+                  boxShadow: 24,
+                  pt: 2,
+                  px: 4,
+                  pb: 3,
+                }}>
+                  <Typography id="course-modal-title" variant='h6' component='h2'>{course.title}</Typography>
+                  <Typography id="course-modal-description" variant="body1" color="text.secondary">
+                    {course.description}
+                  </Typography>
+                  <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+                    <Button onClick={handleClose}>Close</Button>
+                    <button
+                      className="btn btn-lg"
+                      onClick={() => handleEnrollCourse(course.courseId)}
+                      disabled={isEnrolled(course.courseId)} // Disable if already enrolled
+                    >
+                      {isEnrolled(course.courseId) ? 'Enrolled' : 'Enroll'}
+                    </button>
+                  </Stack>
+                </Box>
+              </Modal>
+            </div>
+          ))}
         </div>
+      </div>
+    </div>
 
-    )
-}
+  )
+};
+const mapStateToProps = (state) => ({
+  enrolledCourses: state.enrolledCourses.enrolledCourses || [], // Ensure it's an array
+  loading: state.enrolledCourses.loading,
+  error: state.enrolledCourses.error,
+});
+
+export default connect(mapStateToProps)(LearnerDashboard);
 

@@ -152,3 +152,8 @@
   .suggestions-dropdown li:hover {
     background-color: #f0f0f0;
   }
+
+  .course-avatar{
+    margin-right: 0px;
+    margin-left: 980px;
+  }

@@ -1,28 +1,170 @@
-import React, { useState, useEffect } from 'react';
-import Relevantz from '../../assets/Images/Relevantz.png';
-import '../../Styles/Learner/CourseNavbar.css';
+import React, { useState } from 'react';
+import { styled, useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import MuiDrawer from '@mui/material/Drawer';
+import MuiAppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import List from '@mui/material/List';
+import CssBaseline from '@mui/material/CssBaseline';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import { red } from '@mui/material/colors';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
+import logo from '..//../assets/logo.png';
 import LearnerCourse from '../LearnerComponent/LearnerCourse';
 import { useSelector } from 'react-redux';
 //import { fetchCourses } from '../../middleware/CourseApi';
  
-function CourseNavbar() {
+
+const learnerId = sessionStorage.getItem('UserSessionID')
+
+const drawerWidth = 240;
+
+const openedMixin = (theme) => ({
+  width: drawerWidth,
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: 'hidden',
+});
+
+const closedMixin = (theme) => ({
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: 'hidden',
+  width: `calc(${theme.spacing(7)} + 1px)`,
+  [theme.breakpoints.up('sm')]: {
+    width: `calc(${theme.spacing(8)} + 1px)`,
+  },
+});
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+}));
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(['width', 'margin'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+    boxSizing: 'border-box',
+    ...(open && {
+      ...openedMixin(theme),
+      '& .MuiDrawer-paper': openedMixin(theme),
+    }),
+    ...(!open && {
+      ...closedMixin(theme),
+      '& .MuiDrawer-paper': closedMixin(theme),
+    }),
+  }),
+);
+
+const SearchBar = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: 'rgba(255, 255, 255, 0.15)',
+  '&:hover': {
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
+  },
+  marginLeft: '200%',
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const SearchInput = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  padding: theme.spacing(1, 1, 1, 0),
+  // vertical padding + font size from searchIcon
+  paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+  transition: theme.transitions.create('width'),
+  width: '100%',
+
+  [theme.breakpoints.up('md')]: {
+    width: '50ch',
+    
+  },
+}));
+
+export default function MiniDrawer() {
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+  const [suggestions, setSuggestions] = useState([]);
   const [search, setSearch] = useState(""); // State for search query
- // const [courses, setCourses] = useState([]); // State for all courses
- const courses = useSelector((state) => state.fetchcourse.courses)
-  console.log('navbar page',courses)
-  const [suggestions, setSuggestions] = useState([]); // State for filtered suggestions
- 
-//   useEffect(() => {
-//     // Fetch courses once when the component mounts
-//     const fetchData = async () => {
-//       const coursesData = await fetchCourses();
-//       if (coursesData) {
-//         setCourses(coursesData);
-//       }
-//     };
-//     fetchData();
-//   }, []);
- 
+  const [courses, setCourses] = useState([]);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
   const handleSearchChange = (e) => {
     const query = e.target.value;
     setSearch(query);
@@ -40,60 +182,119 @@ function CourseNavbar() {
     setSearch(suggestion.title);
     setSuggestions([]);
   };
- 
+
   return (
-    <div>
-      <nav className="navbar navbar-expand-sm navbar-dark">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="#"><img src={Relevantz} alt="Relevantz Logo" /></a>
-          <div><h5>Learning Management System</h5></div>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="mynavbar">
-            <form className="d-flex position-relative">
-              <div className="input-group search-bar" style={{ width: 400 }}>
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Search"
-                  value={search}
-                  onChange={handleSearchChange}
-                />
-                <button className="btn btn-light" type="button">
-                  <i className="bi bi-search"></i>
-                </button>
-              </div>
-              {suggestions.length > 0 && (
-                <ul className="suggestions-dropdown">
-                  {suggestions.map((suggestion) => (
-                    <li
-                      key={suggestion.courseId}
-                      onClick={() => handleSuggestionClick(suggestion)}
-                    >
-                      {suggestion.title}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </form>
-          </div>
-          <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <a className="nav-link icon" href="#">Home</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link icon" href="#">Course</a>
-            </li>
-          </ul>
-          <div className="user-profile">
-            <span>Priya</span>
-          </div>
+    <Box sx={{ display: 'flex' }} className='bar'>
+      <CssBaseline />
+      <AppBar position="fixed" open={open} className='bar'>
+      <div style={{backgroundColor:'#27235C'}}>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{
+              marginRight: 5,
+              ...(open && { display: 'none' }),
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <a className="navbar-brand" href="Relevantz"><img src={logo} alt="Relevantz Logo" className='navbar-imaged' /></a>
+          <div className='navbar-name'><h5>Learning Experience Platform</h5></div>
+          {/* <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+            Learning Experience Platform
+          </Typography> */}
+          <Stack direction="row" alignItems="center" spacing={2}>
+            <SearchBar className='ms-5'>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <SearchInput
+                placeholder="Search..."
+                value={search}
+                onChange={handleSearchChange}
+              />
+                {suggestions && suggestions.length > 0 && (
+              <ul className="suggestions-dropdown">
+                {suggestions.map((suggestions)=> (
+                  <li key={suggestions.courseId} onClick={() => handleSuggestionClick(suggestions)}>{suggestions.title}</li>
+                ))}
+              </ul>
+            )}
+            </SearchBar>
+          
+            <Avatar
+              sx={{ bgcolor: 'light pink', cursor: 'pointer' }}
+              className='course-avatar'
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onMouseEnter={handleMenuOpen}
+              style={{marginLeft:500}}
+            >
+              PM
+            </Avatar>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+            >
+              <MenuItem onClick={handleMenuClose}>Close</MenuItem>
+             
+            </Menu>
+          </Stack>
+        </Toolbar>
         </div>
-      </nav>
+      </AppBar>
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </IconButton>
+        </DrawerHeader>
+
+        <List>
+          {['Mycourse'].map((text, index) => (
+            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <MenuBookIcon />
+
+                </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+
+      </Drawer>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <DrawerHeader />
+      </Box>
       <LearnerCourse search={search} />
-    </div>
+    </Box>
   );
 }
- 
-export default CourseNavbar; 

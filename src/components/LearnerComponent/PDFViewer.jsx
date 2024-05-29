@@ -13,6 +13,8 @@ function PDFViewer(prop) {
   const [viewpdf, setViewPdf] = useState(material);
 
   const [fileResponse, setFileResponse] = useState([]);
+  const learnerId = sessionStorage.getItem('UserSessionID')
+  
  useEffect(()=>{
 console.log(prop);
  },[])

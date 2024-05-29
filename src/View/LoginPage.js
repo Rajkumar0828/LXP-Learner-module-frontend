@@ -32,7 +32,10 @@ const Loginpage = () => {
 
   useEffect(() => {
     if (isSuccessuser) {
-      navigate('/userdashboard'); // Navigate to the next page on success
+      
+      navigate('/LearnerDashboard'); 
+      
+  // Navigate to the next page on success
     }
   }, [isSuccessuser, navigate]);
 
@@ -70,7 +73,7 @@ const Loginpage = () => {
                   {...register('password', {
                     required: validationMessages.password.required,
                     minLength: {
-                      value: 14,
+                      value: 8,
                       message: validationMessages.password.minLength
                     },
                     pattern: {

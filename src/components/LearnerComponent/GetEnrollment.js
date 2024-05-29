@@ -15,13 +15,13 @@ import  logo from'../../../src/Images/logo.png'
 
 
 
-
+const id = sessionStorage.getItem('UserSessionID')
 
 // import Navbar1 from "../LearnerComponent/Navbar1";
 
 const GetEnrollment = () => {
     const dispatch = useDispatch();
-    const id = "482a2888-c470-4f1e-b7c0-4bb725d8ff6a"; // The specific learnerId
+    //const id = "482a2888-c470-4f1e-b7c0-4bb725d8ff6a"; // The specific learnerId
     const viewcourse = useSelector((state) => state.enroll.course[0]);
   
     useEffect(() => {
