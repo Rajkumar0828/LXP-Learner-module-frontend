@@ -31,6 +31,10 @@ import logo from '..//../assets/logo.png';
 import LearnerCourse from '../LearnerComponent/LearnerCourse';
 import { useSelector } from 'react-redux';
 //import { fetchCourses } from '../../middleware/CourseApi';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import {Link} from 'react-router-dom';
  
 
 const learnerId = sessionStorage.getItem('UserSessionID')
@@ -265,35 +269,101 @@ export default function MiniDrawer() {
         </DrawerHeader>
 
         <List>
-          {['Mycourse'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
+        <ListItem disablePadding sx={{ display: 'block' }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+            >
+              <Link to ='/LearnerDashboard'>
+              <ListItemIcon
                 sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
                 }}
               >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <MenuBookIcon />
-
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+                <HomeOutlinedIcon />
+              </ListItemIcon>
+              </Link>
+              <ListItemText primary="Courses" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding sx={{ display: 'block' }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+            >
+              <Link to ='/LearnerPage'>
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                }}
+              >
+                <MenuBookIcon />
+              </ListItemIcon>
+              </Link>
+              <ListItemText primary="Courses" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding sx={{ display: 'block' }}>
+         
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+            >
+                   <Link to ='/LearnerenrolledCourse'>
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                }}
+              >
+                <SchoolOutlinedIcon />
+              </ListItemIcon>
+              </Link>
+              <ListItemText primary="My Course" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding sx={{ display: 'block' }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+            >
+                <Link to ='/LearnerenrolledCourse'>
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                }}
+              >
+                <EmojiEventsOutlinedIcon />
+              </ListItemIcon>
+              </Link>
+              <ListItemText primary="Scores" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
         </List>
-
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
       </Box>
+ 
       <LearnerCourse search={search} />
     </Box>
   );

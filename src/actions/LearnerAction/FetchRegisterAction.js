@@ -6,10 +6,10 @@ export const FetchuserDataRequest=(userdata)=>({
   type:FETCH_USER_DATA_REQUEST,
   payload:userdata,
 })
-
-export const FetchuserDataSuccess=(successmsg)=>({
+console.log("userdata",FetchuserDataRequest());
+export const FetchuserDataSuccess=(fetchlearner)=>({
   type:FETCH_USER_DATA_SUCCESS,
-  payload:successmsg,
+  payload:fetchlearner,
 })
 
 export const FetchuserDataFailure=(error)=>({

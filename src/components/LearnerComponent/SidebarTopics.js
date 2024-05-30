@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 
 import { Link, Route } from "react-router-dom";
 import PDFViewer from "./PDFViewer";
+import PptViewerComponent from "./Pptxday";
 
 
 
@@ -90,35 +91,39 @@ function SidebarTopics() {
     setFolders(updatedFolders);
 };
    const navigate = useNavigate();
-  const handleFileClick = (file) => {
-    switch (file) {
-      case "PPT":
-        // console.log("ppt")
-        // Set the component for PPT
-        break;
-      case "PDF":
-        setSelectedComponent(<PDFViewer Document={"k"}/>);
+  // const handleFileClick = (file) => {
+  //   switch (file) {
+  //     case "PPT":
+  //       setSelectedComponent(
+  //         <div style={{ width: '100%', height: '100vh' }}>
+  //           <PptViewerComponent Document={materiallink}/>
+  //         </div>
+  //       );
+     
+  //       break;
+  //     case "PDF":
+  //       setSelectedComponent(<PDFViewer Document={"k"}/>);
 
-        // setSelectedComponent( <a href="">{pdf.length > 0 && pdf[0].name}</a>);
+  //       // setSelectedComponent( <a href="">{pdf.length > 0 && pdf[0].name}</a>);
 
-        // navigate('/PDF');
-        // setSelectedComponent(
-        //   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        //     {/* navigate('/PDF'); */}
-        //     {/* <Route file={'/PDF'} onLoadSuccess={onDocumentLoadSuccess}>
-        //       <Page pageNumber={pageNumber} />
-        //     </Route> */}
-        //   </div>
-        // );
-        break;
-      case "AssessmentEvaluation1.2":
-        // Set the component for AssessmentEvaluation1.2
-        break;
-      default:
-        setSelectedComponent(null);
-        break;
-    }
-  };
+  //       // navigate('/PDF');
+  //       // setSelectedComponent(
+  //       //   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+  //       //     {/* navigate('/PDF'); */}
+  //       //     {/* <Route file={'/PDF'} onLoadSuccess={onDocumentLoadSuccess}>
+  //       //       <Page pageNumber={pageNumber} />
+  //       //     </Route> */}
+  //       //   </div>
+  //       // );
+  //       break;
+  //     case "AssessmentEvaluation1.2":
+  //       // Set the component for AssessmentEvaluation1.2
+  //       break;
+  //     default:
+  //       setSelectedComponent(null);
+  //       break;
+  //   }
+  // };
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
@@ -128,8 +133,11 @@ function SidebarTopics() {
  console.log("link"+materiallink)
  switch (type) {
   case "PPT":
-    // console.log("ppt")
-    // Set the component for PPT
+    setSelectedComponent(
+      <div style={{ width: '100%', height: '100vh' }}>
+        <PptViewerComponent Document={materiallink}/>
+      </div>
+    );
     break;
   case "PDF":
     setSelectedComponent(<PDFViewer material={materiallink}/>);
@@ -168,7 +176,7 @@ function SidebarTopics() {
           </a>
           {/* <button type="button" class="btn btn-primary">Back</button> */}
 
-          <Link className="btn btn-primary" to={`/Enrollmy`}>
+          <Link className="btn btn-primary" to={`/LearnerenrolledCourse`}>
             Back
           </Link>
         </div>

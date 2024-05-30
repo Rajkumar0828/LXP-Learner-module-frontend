@@ -16,12 +16,14 @@ import LearnerNavbar from '../LearnerComponent/LearnerNavbar';
 
 const CourseComponent = ({ enrolledCourses, loading, error, search }) => {
   const courses = useSelector((state) => state.fetchcourse.courses);
+  console.log("courses = useSelector",courses);
   const dispatch = useDispatch();
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const learnerId = sessionStorage.getItem('UserSessionID'); // Retrieve learner ID from session storage
 
   useEffect(() => {
+    console.log("effect");
     dispatch(fetchCoursesRequest());
   }, [dispatch]);
 
@@ -88,11 +90,11 @@ const CourseComponent = ({ enrolledCourses, loading, error, search }) => {
         <div className="row course-container" >
           {filteredCourses.map((course, index) => (
             <div className="col-sm-6" key={index} >
-              <Card sx={{ display: 'flex', width:600, marginLeft:30,marginTop:15}} >
+              <Card sx={{ display: 'flex', width:480, marginLeft:10,marginTop:15}} >
                 <CardMedia
                  
                   component="img"
-                  sx={{ width: 80,marginLeft:5 }}
+                  sx={{ width: 120,marginLeft:1 }}
                   image={course.thumbnailimage}
                   alt={course.title}
                 />

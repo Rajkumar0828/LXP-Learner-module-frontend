@@ -15,9 +15,12 @@ import { userOTPRequest } from '../../actions/LearnerAction/OTPAction';
 
 
 const options = [
+    { value: 'C++', label: 'C++' },
+    { value: 'LINQ', label: 'LINQ' },
+    { value: '.NET', label: '.NET' },
     { value: 'C#', label: 'C#' },
-    { value: 'Java', label: 'Java' },
-    { value: 'MySQL', label: 'MySQL' },
+    { value: 'JAVA', label: 'JAVA' },
+    { value: 'RUST', label: 'RUST' },
 ];
 
 export default function Register() {
@@ -93,6 +96,7 @@ export default function Register() {
     // };
 
     const handleSendOTP = () => {
+
          console.log("userEmail",userData.email);
         if (!/\S+@\S+\.\S+/.test(email)) {
             setErrors({ ...errors, email: 'Invalid email address' });
@@ -104,6 +108,7 @@ export default function Register() {
         setTimer(120);
         handleOTPSubmit();
         //sendOTP(email);
+     
         dispatch(userEmailRequest(userData.email));
 
     };

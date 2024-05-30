@@ -31,6 +31,7 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
   const selectedStream = useSelector((state) => state.fetchlearner.userData);
   console.log("Selected", selectedStream);
   const filteredCourses = courses.filter(course => course.title === selectedStream);
+  console.log("filteredcourse",filteredCourses);
 
   console.log("dashboard", enrolledCourses)
 
@@ -40,17 +41,20 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
   useEffect(() => {
 
     dispatch(fetchCoursesRequest());
-    dispatch(FetchuserDataRequest(learnerId))
-  }, [dispatch]);
+    fetchuser(learnerId);
+  }, [learnerId, dispatch]);
 
   // useEffect(() => {
   //   setFilteredCourses(
   //     courses.filter(course =>
   //       course.title.toLowerCase().includes(search.toLowerCase())
   //     )
-  //   );
+  //   ); 
   // }, [search, courses]);
-
+const fetchuser = async (learnerId) => {
+  console.log("fetcheruser",learnerId);
+  dispatch(FetchuserDataRequest(learnerId));
+};
 
 
 
@@ -125,11 +129,11 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
         <div className="row course-container" >
           {courses.map((course, index) => (
             <div className="col-sm-6" key={index} >
-              <Card sx={{ display: 'flex', width: 450, marginLeft: 10, marginTop: 15, color: 'grey' }} >
+              <Card sx={{ display: 'flex', width: 450, marginLeft: 25, marginTop: 15, color: 'grey' }} >
                 <CardMedia
 
                   component="img"
-                  sx={{ width: 80, marginLeft: 5 }}
+                  sx={{ width: 150, marginLeft: 1 }}
                   image={course.thumbnailimage}
                   alt={course.title}
                 />

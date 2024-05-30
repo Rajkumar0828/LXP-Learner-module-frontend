@@ -1,9 +1,10 @@
-import { CREATE_EMAIL_REQUEST,CREATE_EMAIL_SUCCESS,CREATE_EMAIL_FAILURE } from "..//../actions/LearnerAction/Fetchemail";
+import { CREATE_EMAIL_REQUEST,CREATE_EMAIL_SUCCESS,CREATE_EMAIL_FAILURE, SET_IS_REQUESTING_OTP } from "..//../actions/LearnerAction/Fetchemail";
 
 const initialState = {
     email:null,
     loading:false,
     error:null,
+    isRequestingOTP:false,
 };
 
 const emailReducer = (state = initialState, action) => {
@@ -29,6 +30,13 @@ const emailReducer = (state = initialState, action) => {
               loading:false,
               error:action.payload,
             };    
+
+            case SET_IS_REQUESTING_OTP:
+                return{
+                    ...state,
+                    isRequestingOTP:action.payload,
+                };
+
         default:
             return state;
     }

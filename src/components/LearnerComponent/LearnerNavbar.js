@@ -28,7 +28,11 @@ import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, } from 'react';
+import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
+import {Link, useNavigate} from 'react-router-dom';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import { useSelector } from 'react-redux';
 
 const learnerId = sessionStorage.getItem('UserSessionID')
 
@@ -138,6 +142,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function MiniDrawer() {
+const name = useSelector((state)=> state.fetchlearner)
+console.log("name",name)
+  const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -156,7 +163,17 @@ export default function MiniDrawer() {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+    
   };
+
+const Logout=()=>{
+  handleMenuClose();
+  navigate('/')
+  sessionStorage.removeItem("")
+  
+}
+
+
   return (
 
     <Box sx={{ display: 'flex' }} className='bar'>
@@ -189,9 +206,10 @@ export default function MiniDrawer() {
                   open={Boolean(anchorEl)}
                   onClose={handleMenuClose}
                 >
-                  <MenuItem onClick={handleMenuClose}>Edit Profile</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>Reset Password</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>Log Out</MenuItem>
+                  {/* <MenuItem onClick={handleMenuClose} > <link to='/updateuserprofile'>Edit Profile</link></MenuItem> */}
+                  <MenuItem onClick={handleMenuClose}> <Link to='/updateuserprofile' style={{ color: 'inherit', textDecoration: 'inherit'}}>    Edit Profile  </Link></MenuItem>
+                <MenuItem onClick={handleMenuClose} >     <Link to='/passwordchange' style={{color:'inherit', textDecoration:"inherit"}}>Password Update</Link> </MenuItem>
+                  <MenuItem onClick={Logout}>Log Out</MenuItem>
                 </Menu>
               </Stack>
             </Typography>
@@ -206,37 +224,100 @@ export default function MiniDrawer() {
           </IconButton>
         </DrawerHeader>
 
-        <List >
-          {['Courses','MyCourse','Scores'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
+        <List>
+        <ListItem disablePadding sx={{ display: 'block' }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+            >
+              <Link to ='/LearnerDashboard'>
+              <ListItemIcon
                 sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
                 }}
               >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <MenuBookIcon />
-
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+                <HomeOutlinedIcon />
+              </ListItemIcon>
+              </Link>
+              <ListItemText primary="Courses" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding sx={{ display: 'block' }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+            >
+              <Link to ='/LearnerPage'>
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                }}
+              >
+                <MenuBookIcon />
+              </ListItemIcon>
+              </Link>
+              <ListItemText primary="Courses" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding sx={{ display: 'block' }}>
+         
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+            >
+                   <Link to ='/LearnerenrolledCourse'>
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                }}
+              >
+                <SchoolOutlinedIcon />
+              </ListItemIcon>
+              </Link>
+              <ListItemText primary="My Course" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding sx={{ display: 'block' }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+            >
+                <Link to ='/LearnerenrolledCourse'>
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                }}
+              >
+                <EmojiEventsOutlinedIcon />
+              </ListItemIcon>
+              </Link>
+              <ListItemText primary="Scores" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
         </List>
-
-
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-
       </Box>
     </Box>
   );

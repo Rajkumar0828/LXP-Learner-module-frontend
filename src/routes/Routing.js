@@ -21,6 +21,9 @@ import GetEnrollment from '../components/LearnerComponent/GetEnrollment';
 
 import PDFViewer from '../components/LearnerComponent/PDFViewer';
  import SidebarTopics from '../components/LearnerComponent/SidebarTopics';
+import PptViewerComponent from '../components/LearnerComponent/Pptxday';
+import UpdateUserProfileComponent from '../components/LearnerComponent/UpdateUserProfile';
+import PasswordChange from '../components/LearnerComponent/PasswordChange';
 
 function Routing() {
   // const DrawerHeader = styled('div')(({ theme }) => ({
@@ -34,6 +37,8 @@ function Routing() {
   return (
     <BrowserRouter>
     <Routes>
+      <Route path='/passwordchange' element = {<PasswordChange/>}/>
+      <Route path='/updateuserprofile' element={<UpdateUserProfileComponent/>}/>
       <Route exact path="/" element={<Loginpage />} />
       <Route path="/email" element={<Email />} />
       <Route path="/forgotpassword" element={<ForgotPassword />}/>
@@ -47,7 +52,7 @@ function Routing() {
       <Route path="/ViewTopics" element={<SidebarTopics/>}></Route>
 
       <Route path="/PDF" element={<PDFViewer/>}></Route>
-
+     <Route path="/PPT" element={<PptViewerComponent/>}></Route>
       <Route element={<Adminrouting />}> 
         <Route path="/home" element={<Admindashboard />} />
         <Route path="/admincourse" element={<Admincourse />} />
@@ -57,6 +62,7 @@ function Routing() {
         {/* <Route path="/learnerviewall"element={<LearnerReduxView />} ></Route> */}
         {/* <Route path="/individuallearner/:learnerId" element={<IndividualLearner />}></Route> */}
         {/* <Route path="/LearnerReport" element={<LearnerReportView/>}></Route> */}
+        <Route path='/login' element={<Loginpage/>}></Route>
         
       </Route>
 

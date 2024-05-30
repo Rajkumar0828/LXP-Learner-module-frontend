@@ -24,11 +24,17 @@ import LearnerGetCourse from '../middleware/LearnerMiddleware/LearnerGetCourse';
 import LearnerPostEnrollReducer from '../reducers/LearnerReducer/LearnerPostEnrollReducer';
 import LearnerPostEnroll from '../middleware/LearnerMiddleware/LearnerPostEnroll';
 
- import enrollApi from "../middleware/LearnerMiddleware/EnrollCourseApi";
+ import enrollCourseApi from "../middleware/LearnerMiddleware/EnrollCourseApi";
  import enrollmentReducer from "../reducers/LearnerReducer/EnrollmentReducer";
 import fetchPdfReducer from '../reducers/LearnerReducer/FetchPdfReducer';
 import FetchRegisterReducer from '../reducers/LearnerReducer/FetchRegisterReducer';
 import { FetchRegisterApi } from '../middleware/LearnerMiddleware/FetchRegisterApi';
+import GetUserProfileReducer from '../reducers/LearnerReducer/GetUserProfileReducer';
+import UpdateUserProfileReducer from '../reducers/LearnerReducer/UpdateUserProfileReducer';
+import fetchProfileData from '../middleware/LearnerMiddleware/GetUserProfileMiddleware';
+import { updateUserData } from '../middleware/LearnerMiddleware/UpdateUserProfileMiddleware';
+import PasswordChangeReducer from '../reducers/LearnerReducer/PasswordChangeReducer';
+import updatePasswordApi from '../middleware/LearnerMiddleware/PasswordChangeApi';
 
 
 
@@ -37,7 +43,10 @@ import { FetchRegisterApi } from '../middleware/LearnerMiddleware/FetchRegisterA
 
 
 const rootReducer = combineReducers({
-  forgotPassword: ForgotPasswordreducer,
+  passwordchangereducer : PasswordChangeReducer,
+  // getUseProfile: GetUserProfileReducer,
+  // updateuserprofile:UpdateUserProfileReducer,
+  // forgotPassword: ForgotPasswordreducer,
   user: userReducer,
   course: courseReducer,
   allcourse: AllcourseReducer,
@@ -57,7 +66,7 @@ const rootReducer = combineReducers({
 const store = createStore(
 
   rootReducer,
-  applyMiddleware(thunk, apiMiddleware,apiviewallcourse,loginUser,apiDeletecourse,UpdateCourse,RegisterApi,fetchEmailApi,VerifyEmailApi,LearnerGetCourse,LearnerPostEnroll,enrollApi,FetchRegisterApi)
+  applyMiddleware(thunk,   apiMiddleware,apiviewallcourse,loginUser,apiDeletecourse,UpdateCourse,RegisterApi,fetchEmailApi,VerifyEmailApi,LearnerGetCourse,LearnerPostEnroll,enrollCourseApi,FetchRegisterApi)
 );
 
 export default store;
