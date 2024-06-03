@@ -13,6 +13,7 @@ const FetchRegisterApi=({dispatch})=>(next)=>async(action)=>{
       const response = await axios.get(`http://localhost:5199/lxp/view/learner/${action.payload}`);
       console.log("learner",response.data);
       dispatch(FetchuserDataSuccess(response.data.data))
+      console.log("apifetch",FetchuserDataSuccess());
      }catch(error){
       dispatch(FetchuserDataFailure(error))
      }

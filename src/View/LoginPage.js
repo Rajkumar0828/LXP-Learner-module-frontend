@@ -23,27 +23,37 @@ const Loginpage = () => {
 
   const  isSuccessuser  = useSelector((state) => state.user.isSuccessuser)
 
-  useEffect(() => {
-    if (isSuccessadmin) {
-      navigate('/admindashboard'); // Navigate to the next page on success
-    }
-  }, [isSuccessadmin, navigate]);
+  // useEffect(() => {
+  //   if (isSuccessadmin) {
+  //     navigate('/admindashboard'); // Navigate to the next page on success
+  //   }
+  // }, [isSuccessadmin, navigate]);
 
 
-  useEffect(() => {
-    if (isSuccessuser) {
+  // useEffect(() => {
+  //   if (isSuccessuser) {
       
-      navigate('/LearnerDashboard'); 
+  //     navigate('/LearnerDashboard'); 
       
-  // Navigate to the next page on success
-    }
-  }, [isSuccessuser, navigate]);
+  // // Navigate to the next page on success
+  //   }
+  // }, [isSuccessuser, navigate]);
 
 
 
   const onSubmit = data => {
 
     dispatch(loginRequest(data));
+    if (isSuccessadmin) {
+      navigate('/admindashboard'); // Navigate to the next page on success
+    }
+    else if (isSuccessuser) {
+      
+      navigate('/LearnerDashboard'); 
+      
+  // Navigate to the next page on success
+    }
+    
   };
   return (
     <>

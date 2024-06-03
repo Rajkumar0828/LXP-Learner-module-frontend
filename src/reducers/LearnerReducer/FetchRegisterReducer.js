@@ -16,6 +16,7 @@ const FetchRegisterReducer = (state = initialState, action) => {
             };
 
         case FETCH_USER_DATA_SUCCESS:
+            console.log("fetchreducer",action.payload);
             return{
                 ...state,
                 loading:false,

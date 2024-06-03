@@ -106,7 +106,7 @@ export default function Register() {
         setShowOTP(true);
         setErrors('');
         setTimer(120);
-        handleOTPSubmit();
+        // handleOTPSubmit();
         //sendOTP(email);
      
         dispatch(userEmailRequest(userData.email));

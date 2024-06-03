@@ -39,7 +39,7 @@ function Routing() {
     <Routes>
       <Route path='/passwordchange' element = {<PasswordChange/>}/>
       <Route path='/updateuserprofile' element={<UpdateUserProfileComponent/>}/>
-      <Route exact path="/" element={<Loginpage />} />
+      <Route path="/" element={<Loginpage />} />
       <Route path="/email" element={<Email />} />
       <Route path="/forgotpassword" element={<ForgotPassword />}/>
       <Route path='/RegisterView' element={<RegisterView/>}></Route>

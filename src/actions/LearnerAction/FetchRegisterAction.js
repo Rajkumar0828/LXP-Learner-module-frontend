@@ -11,7 +11,7 @@ export const FetchuserDataSuccess=(fetchlearner)=>({
   type:FETCH_USER_DATA_SUCCESS,
   payload:fetchlearner,
 })
-
+console.log("fetchlow",FetchuserDataSuccess);
 export const FetchuserDataFailure=(error)=>({
   type:FETCH_USER_DATA_FAILURE,
   payload:error,

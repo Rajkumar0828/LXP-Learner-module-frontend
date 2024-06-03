@@ -30,11 +30,14 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useState, useEffect, } from 'react';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import { useSelector } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
 const learnerId = sessionStorage.getItem('UserSessionID')
+console.log('learnerid', learnerId);
+
 
 
 function stringToColor(string) {
@@ -97,6 +100,8 @@ const closedMixin = (theme) => ({
   },
 });
 
+
+
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -142,11 +147,16 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function MiniDrawer() {
-const name = useSelector((state)=> state.fetchlearner)
-console.log("name",name)
+  const name = useSelector((state) => state.fetchlearner)
+  console.log("name", name)
   const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const firstname = useSelector((state) => state.fetchlearner.userData.firstName);
+  console.log("firstname", firstname);
+
+  const lastname = useSelector((state) => state.fetchlearner.userData.lastName);
+  console.log("lastname", lastname);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -163,15 +173,15 @@ console.log("name",name)
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    
+
   };
 
-const Logout=()=>{
-  handleMenuClose();
-  navigate('/')
-  sessionStorage.removeItem("")
-  
-}
+  const Logout = () => {
+    // handleMenuClose();
+    navigate('/')
+    sessionStorage.removeItem("UserSessionID")
+
+  }
 
 
   return (
@@ -197,7 +207,7 @@ const Logout=()=>{
             <div className='navbar-name'><h5>Learning Experience Platform</h5></div>
             <Typography variant="h6" noWrap component="div">
               <Stack direction="row" alignItems="center" className='avatar' spacing={2}>
-                <Avatar {...stringAvatar('Priyadharshini Murugan')}
+                <Avatar {...stringAvatar(`${firstname} ${lastname}`)}
                   sx={{ cursor: 'pointer' }}
                   onMouseEnter={handleMenuOpen}
                 />
@@ -207,8 +217,8 @@ const Logout=()=>{
                   onClose={handleMenuClose}
                 >
                   {/* <MenuItem onClick={handleMenuClose} > <link to='/updateuserprofile'>Edit Profile</link></MenuItem> */}
-                  <MenuItem onClick={handleMenuClose}> <Link to='/updateuserprofile' style={{ color: 'inherit', textDecoration: 'inherit'}}>    Edit Profile  </Link></MenuItem>
-                <MenuItem onClick={handleMenuClose} >     <Link to='/passwordchange' style={{color:'inherit', textDecoration:"inherit"}}>Password Update</Link> </MenuItem>
+                  <MenuItem onClick={handleMenuClose}> <Link to='/updateuserprofile' style={{ color: 'inherit', textDecoration: 'inherit' }}>    Edit Profile  </Link></MenuItem>
+                  <MenuItem onClick={handleMenuClose} >     <Link to='/passwordchange' style={{ color: 'inherit', textDecoration: "inherit" }}>Password Update</Link> </MenuItem>
                   <MenuItem onClick={Logout}>Log Out</MenuItem>
                 </Menu>
               </Stack>
@@ -225,7 +235,7 @@ const Logout=()=>{
         </DrawerHeader>
 
         <List>
-        <ListItem disablePadding sx={{ display: 'block' }}>
+          <ListItem disablePadding sx={{ display: 'block' }}>
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -233,16 +243,16 @@ const Logout=()=>{
                 px: 2.5,
               }}
             >
-              <Link to ='/LearnerDashboard'>
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                }}
-              >
-                <HomeOutlinedIcon />
-              </ListItemIcon>
+              <Link to='/LearnerDashboard'>
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <HomeOutlinedIcon />
+                </ListItemIcon>
               </Link>
               <ListItemText primary="Courses" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
@@ -255,22 +265,22 @@ const Logout=()=>{
                 px: 2.5,
               }}
             >
-              <Link to ='/LearnerPage'>
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                }}
-              >
-                <MenuBookIcon />
-              </ListItemIcon>
+              <Link to='/LearnerPage'>
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <MenuBookIcon />
+                </ListItemIcon>
               </Link>
               <ListItemText primary="Courses" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding sx={{ display: 'block' }}>
-         
+
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -278,16 +288,16 @@ const Logout=()=>{
                 px: 2.5,
               }}
             >
-                   <Link to ='/LearnerenrolledCourse'>
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                }}
-              >
-                <SchoolOutlinedIcon />
-              </ListItemIcon>
+              <Link to='/LearnerenrolledCourse'>
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <SchoolOutlinedIcon />
+                </ListItemIcon>
               </Link>
               <ListItemText primary="My Course" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
@@ -300,16 +310,16 @@ const Logout=()=>{
                 px: 2.5,
               }}
             >
-                <Link to ='/LearnerenrolledCourse'>
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                }}
-              >
-                <EmojiEventsOutlinedIcon />
-              </ListItemIcon>
+              <Link to='/LearnerenrolledCourse'>
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <EmojiEventsOutlinedIcon />
+                </ListItemIcon>
               </Link>
               <ListItemText primary="Scores" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
