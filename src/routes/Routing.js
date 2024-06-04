@@ -25,6 +25,7 @@ import PptViewerComponent from '../components/LearnerComponent/Pptxday';
 import UpdateUserProfileComponent from '../components/LearnerComponent/UpdateUserProfile';
 import PasswordChange from '../components/LearnerComponent/PasswordChange';
 import Progressbar from '../components/LearnerComponent/Progressbar';
+import LearnerScorePage from '..//components/LearnerComponent/LearnerScorePage';
 
 function Routing() {
   // const DrawerHeader = styled('div')(({ theme }) => ({
@@ -47,6 +48,7 @@ function Routing() {
       <Route path='/LearnerDashboard' element={<LearnerDashboard/>}></Route>
       <Route path='/LearnerNavbar' element={<LearnerNavbar/>}></Route>
       <Route path='/LearnerPage' element={<CourseNavbar/>}></Route>
+      <Route path= '/LearnerScorePage' element={<LearnerScorePage/>}></Route>
      
       <Route path="/LearnerenrolledCourse" element={<GetEnrollment/>}></Route>
 

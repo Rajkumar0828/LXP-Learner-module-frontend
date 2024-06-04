@@ -39,6 +39,36 @@ import { Link } from "react-router-dom";
 
 const learnerId = sessionStorage.getItem("UserSessionID");
 
+
+function stringToColor(string) {
+  let hash = 0;
+  let i;
+
+  /* eslint-disable no-bitwise */
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = '#';
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+  /* eslint-enable no-bitwise */
+
+  return color;
+}
+
+function stringAvatar(name) {
+  return {
+    sx: {
+      bgcolor: stringToColor(name),
+    },
+    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+  };
+}
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -161,6 +191,13 @@ export default function MiniDrawer() {
   // const [courses, setCourses] = useState([]);
   const courses = useSelector((state) => state.fetchcourse.courses);
   const searchedItemRef = useRef();
+
+  const firstname = useSelector((state) => state.fetchlearner.userData.firstName);
+  console.log("firstname", firstname);
+
+  const lastname = useSelector((state) => state.fetchlearner.userData.lastName);
+  console.log("lastname", lastname);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -283,16 +320,11 @@ export default function MiniDrawer() {
                 )}
               </SearchBar> */}
 
-              <Avatar
-                sx={{ bgcolor: "light pink", cursor: "pointer" }}
-                className="course-avatar"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onMouseEnter={handleMenuOpen}
-                style={{ marginLeft: 500 }}
-              >
-                PM
-              </Avatar>
+                 <Avatar {...stringAvatar(`${firstname} ${lastname}`)}
+                  sx={{ cursor: 'pointer' }}
+                  onMouseEnter={handleMenuOpen}
+                  style={{marginLeft:500}}
+                />
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
@@ -345,7 +377,7 @@ export default function MiniDrawer() {
                   <HomeOutlinedIcon />
                 </ListItemIcon>
               </Link>
-              <ListItemText primary="Courses" sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText primary="Home" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding sx={{ display: "block" }}>
@@ -403,7 +435,7 @@ export default function MiniDrawer() {
                 px: 2.5,
               }}
             >
-              <Link to="/LearnerenrolledCourse">
+              <Link to="/LearnerScorePage">
                 <ListItemIcon
                   sx={{
                     minWidth: 0,

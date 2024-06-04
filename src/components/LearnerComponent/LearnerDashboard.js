@@ -26,12 +26,13 @@ import { FetchuserDataRequest } from '../../actions/LearnerAction/FetchRegisterA
 const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
   const courses = useSelector((state) => state.fetchcourse.courses);
   const dispatch = useDispatch();
-  // const [filteredCourses, setFilteredCourses] = useState([]);
+  const [filteredCourses, setFilteredCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const selectedStream = useSelector((state) => state.fetchlearner.userData);
+  const selectedStream = useSelector((state) => state.fetchlearner.userData.stream);
   console.log("Selected", selectedStream);
-  const filteredCourses = courses.filter(course => course.title === selectedStream);
+
   console.log("filteredcourse",filteredCourses);
+  console.log("course", courses);
 
   console.log("dashboard", enrolledCourses)
 
@@ -42,15 +43,25 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
 
     dispatch(fetchCoursesRequest(learnerId));
     fetchuser(learnerId);
-  }, [learnerId]);
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   setFilteredCourses(
-  //     courses.filter(course =>
-  //       course.title.toLowerCase().includes(search.toLowerCase())
-  //     )
-  //   ); 
-  // }, [search, courses]);
+  useEffect(() => {
+    
+    if(selectedStream)
+    {
+      const streams = selectedStream.split(', ')
+      console.log("streams",streams);
+      // setFilteredCourses(courses.filter(course => streams.includes(course.title)));
+      setFilteredCourses(courses.filter(course => streams.map(stream => stream.toLowerCase()).includes(course.title.toLowerCase())));
+
+      console.log("setfilter",setFilteredCourses);
+    }
+    else {
+      setFilteredCourses(courses);
+    }
+  },[selectedStream,courses]);
+
+
 const fetchuser = async (learnerId) => {
   console.log("fetcheruser",learnerId);
   dispatch(FetchuserDataRequest(learnerId));
@@ -126,8 +137,9 @@ const fetchuser = async (learnerId) => {
       <LearnerNavbar />
 
       <div className="container-fluid Servicemain">
+      <h2>Recommended Courses</h2>
         <div className="row course-container" >
-          {courses.map((course, index) => (
+          {filteredCourses.map((course, index) => (
             <div className="col-sm-6" key={index} >
               <Card sx={{ display: 'flex', width: 450, marginLeft: 25, marginTop: 15, color: 'grey' }} >
                 <CardMedia

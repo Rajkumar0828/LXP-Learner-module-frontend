@@ -33,6 +33,23 @@
 import axios from 'axios';
 import { FETCH_COURSES_REQUEST, fetchCoursesFailure, fetchCoursesSuccess } from '../../actions/LearnerAction/LearnerGetCourseAction';
  
+// const LearnerGetCourse = ({ dispatch }) => (next) => async (action) => {
+//   next(action);
+//   if (action.type === FETCH_COURSES_REQUEST) {
+//     try {
+//       console.log("learnerapicomponent:", action);
+//       const response = await axios.get(`http://localhost:5199/lxp/view/course`);
+//       console.log('API  mycourse Response:', response.data); // Log the response data
+//       dispatch(fetchCoursesSuccess(response.data.data))
+      
+//     } catch (error) {
+//       console.error('API Error:', error.message);
+//       dispatch(fetchCoursesFailure(error.message));
+//     }
+//   }
+// };
+// export default LearnerGetCourse;
+
 const LearnerGetCourse = ({ dispatch }) => (next) => async (action) => {
   next(action);
   console.log("coursegetapi",action)
