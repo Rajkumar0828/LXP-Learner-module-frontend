@@ -1,28 +1,102 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import LearnerNavbar from '..//..///.//components/LearnerComponent/LearnerNavbar';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from "react";
+import { TopicScoreApi } from "../../middleware/LearnerMiddleware/TopicScoreApi";
+import TableContainer from "@mui/material/TableContainer";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableHead from "@mui/material/TableHead";
+import TableBody from "@mui/material/TableBody";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import IconButton from "@mui/material/IconButton";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import LearnerNavbar from "..//LearnerComponent/LearnerNavbar";
 
-function Row(props) {
-  const { row } = props;
-  const [open, setOpen] = useState(false);
+function TopicScore() {
+  const [TopicId] = useState("2df47ffa-3fc0-44c7-b869-c403f5542150");
+  const [LearnerId] = useState("6bdbab27-c637-48ff-850e-2cf9eb700a40");
+  const [ViewScoresList, setViewScoresList] = useState([]);
+
+  useEffect(() => {
+    scoreFetch(LearnerId, TopicId);
+  }, []);
+
+  const scoreFetch = async (LearnerId, TopicId) => {
+    try {
+      const ScoreDataArray = await TopicScoreApi(LearnerId, TopicId);
+      console.log(
+        "ScoreDataArray",
+        ScoreDataArray[0].score,
+        ScoreDataArray[0].passMark
+      );
+      setViewScoresList(ScoreDataArray);
+    } catch (error) {
+      console.error("error in fetch", error);
+    }
+  };
 
   return (
-    <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+    <>
+      <LearnerNavbar />
+      <div className="mt-5">
+        <div className="container">
+          <TableContainer component={Paper}>
+            <Table aria-label="collapsible table">
+              <TableHead>
+                <TableRow>
+                  <TableCell />
+                  <TableCell>Course Name</TableCell>
+                  <TableCell>Topic Name</TableCell>
+                  <TableCell>Score</TableCell>
+                  <TableCell>Scores Status</TableCell>
+                  <TableCell>Completion Status</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {ViewScoresList.map((scoreItem, index) => (
+                  <Row
+                    key={index}
+                    row={scoreItem}
+                    score={scoreItem.score}
+                    passmark={scoreItem.passMark}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function Row(props) {
+  const { row, score, passmark } = props;
+  const [open, setOpen] = useState(false);
+  const [Passorfail, setPassorFail] = useState("Fail");
+  const [reattemptClicked,setReattemptClicked]=useState(false);
+
+  console.log("Row s p", score, passmark);
+
+  useEffect(() => {
+    PassorFail(score, passmark);
+  }, [score, passmark]);
+
+  const PassorFail = async (score, passmark) => {
+    if (score >= passmark) {
+      setPassorFail("Pass");
+    }
+  };
+
+  const handleReattempt = () => {
+    // Implement reattempt logic here
+    console.log("Reattempt");
+    setReattemptClicked(true);
+  };
+
+  return (
+    <>
+      <TableRow>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -32,122 +106,31 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            {/* <IconButton
-              aria-label="expand row"
-              size="small"
-              onClick={() => setOpen(!open)}
-            >
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton> */}
-            {row.course}
-          </div>
+        <TableCell>{row.courseTitle}</TableCell>
+        <TableCell>{row.topicName}</TableCell>
+        <TableCell>{row.score}</TableCell>
+
+        <TableCell>
+          <span style={{ color: Passorfail === "Fail" ? "red" : "green" }}>
+            {Passorfail}
+          </span>
         </TableCell>
-        <TableCell align="right">{row.topics}</TableCell>
-        <TableCell align="right">{row.scores}</TableCell>
-        <TableCell align="right">{row.completionStatus}</TableCell>
+        <TableCell>
+          {Passorfail === "Fail" && !reattemptClicked ? (
+            <button style={{ marginLeft: "2%", backgroundColor: "midnightblue", color: "#fff", width: 100 }} onClick={handleReattempt} >Re-attempt</button>
+          ) : (
+            <span style={{ color: "green" }}>Completed</span>
+          )}
+        </TableCell>
+        <TableCell>{row.CompletionStatus}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                History
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Chemistry</TableCell>
-                    <TableCell>Reaction</TableCell>
-                    <TableCell align="right"></TableCell>
-                    <TableCell align="right">Total ammount($)</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
-                      </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
+         
         </TableCell>
       </TableRow>
-    </React.Fragment>
-  );
-}
-
-Row.propTypes = {
-  row: PropTypes.shape({
-    course: PropTypes.string.isRequired,
-    topics: PropTypes.string.isRequired,
-    scores: PropTypes.string.isRequired,
-    completionStatus: PropTypes.string.isRequired,
-    history: PropTypes.arrayOf(
-      PropTypes.shape({
-        amount: PropTypes.number.isRequired,
-        customerId: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-  }).isRequired,
-};
-
-export default function LearnerScorePage() {
-  const [rows, setRows] = useState([]);
-
-  useEffect(() => {
-    // Fetch data from backend API here
-    // Example:
-    // fetch('backend_url')
-    //   .then(response => response.json())
-    //   .then(data => setRows(data))
-    //   .catch(error => console.error('Error fetching data:', error));
-    
-    // Mock data for demonstration
-    const mockData = [
-      { course: 'Mathematics', topics: 'Algebra, Calculus', scores: 'A, B', completionStatus: 'Completed', history: [] },
-      { course: 'Physics', topics: 'Mechanics, Thermodynamics', scores: 'A, A', completionStatus: 'In Progress', history: [] },
-      { course: 'Biology', topics: 'Genetics, Ecology', scores: 'B, C', completionStatus: 'Not Started', history: [] },
-      { course: 'Chemistry', topics: 'Organic, Inorganic', scores: 'A, A', completionStatus: 'Completed', history: [] }
-    ];
-
-    setRows(mockData);
-  }, []);
-
-  return (
-    <>
-      <LearnerNavbar />
-      <div className='container'>
-        <TableContainer component={Paper}>
-          <Table aria-label="collapsible table">
-            <TableHead>
-              <TableRow>
-                <TableCell />
-                <TableCell>Course</TableCell>
-                <TableCell align="right">Topics</TableCell>
-                <TableCell align="right">Scores</TableCell>
-                <TableCell align="right">Completion Status</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row, index) => (
-                <Row key={index} row={row} />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
     </>
   );
 }
+
+export default TopicScore;

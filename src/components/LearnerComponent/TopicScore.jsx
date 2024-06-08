@@ -3,8 +3,8 @@ import { TopicScoreApi } from '../../middleware/LearnerMiddleware/TopicScoreApi'
  
 function TopicScore() {
  
-  const [TopicId] = useState('5eabfe71-a349-422f-af26-a060f741e6da');
-  const [LearnerId] = useState('105b532c-212a-4a60-9426-551f631694dc');
+  const [TopicId] = useState('43083bc3-fe12-4b71-b189-9a090109c84d');
+  const [LearnerId] = useState('6bdbab27-c637-48ff-850e-2cf9eb700a40');
 //  const [LearnerId]= useState(sessionStorage.getItem('UserSessionID'));
  console.log("hello session", LearnerId);
  
@@ -41,12 +41,6 @@ function TopicScore() {
           <h1>{ViewScore.score}</h1>
         <label>course Name</label>  <h1>{ViewScore.courseTitle}</h1>
       <label>Topic Name</label>    <h1>{ViewScore.topicName}</h1>
-         
- 
- 
- 
- 
- 
         </div>
       </div>
  
@@ -55,8 +49,13 @@ function TopicScore() {
     </>
   )
 }
- 
 export default TopicScore;
+
+
+
+
+
+
  
  
  

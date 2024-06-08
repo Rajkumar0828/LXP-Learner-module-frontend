@@ -198,7 +198,7 @@ const GetEnrollment = () => {
  
           <Link key={index} id="Card">
             <Card
-              style={{ height: '300px' }}
+              style={{ height: '380px' }}
               id="Card"
  
             >

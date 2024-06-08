@@ -90,7 +90,7 @@ const CourseComponent = ({ enrolledCourses, loading, error, search }) => {
         <div className="row course-container" >
           {filteredCourses.map((course, index) => (
             <div className="col-sm-6" key={index} >
-              <Card sx={{ display: 'flex', width:480, marginLeft:10,marginTop:15}} >
+              <Card sx={{ display: 'flex', width:480, marginLeft:10, marginTop:15}} >
                 <CardMedia
                  
                   component="img"
@@ -107,7 +107,7 @@ const CourseComponent = ({ enrolledCourses, loading, error, search }) => {
                      Level: {course.level}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" component="div">
-                     Category: {course.category}
+                     Category: {course.catagory}
                     </Typography>
                     <Button onClick={() => handleOpen(course)}>View More</Button>
                   </CardContent>

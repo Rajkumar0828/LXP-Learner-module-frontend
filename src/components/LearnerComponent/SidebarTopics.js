@@ -137,12 +137,9 @@ function SidebarTopics() {
  console.log("link"+materiallink)
  switch (type) {
   case "PPT":
-    setSelectedComponent(
-      <div style={{ width: '100%', height: '100vh' }}>
-        <PptViewerComponent Document={materiallink}/>
-        <div>oneone</div>
-      </div>
-    );
+        setSelectedComponent(<PDFViewer material={materiallink}/>);
+   
+    
     break;
   case "PDF":
     setSelectedComponent(<PDFViewer material={materiallink}/>);
@@ -159,8 +156,8 @@ function SidebarTopics() {
     //   </div>
     // );
     break;
-    case "DOCX":
-      // setSelectedComponent(<DocxViewer material={materiallink}/>);
+    case "TEXT":
+      setSelectedComponent(<PDFViewer material={materiallink}/>);
   
   default:
     // setSelectedComponent(<CourseDescription course={selectedCourse}/>);         for emg
@@ -216,6 +213,7 @@ function SidebarTopics() {
                                                                 {content.materialname}
                                                             </li>
                                                         ))}
+                                                        <button style={{marginLeft:"5%" , backgroundColor:"#fff"}}>Take Quiz</button>
                                                  
                                     </ul>
                                 )}
