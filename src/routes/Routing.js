@@ -27,6 +27,7 @@ import PasswordChange from '../components/LearnerComponent/PasswordChange';
 import Progressbar from '../components/LearnerComponent/Progressbar';
 import LearnerScorePage from '..//components/LearnerComponent/LearnerScorePage';
 import TopicScore from '../components/LearnerComponent/TopicScore';
+import CoursebyScore from '../components/LearnerComponent/CoursebyScore';
 
 function Routing() {
   // const DrawerHeader = styled('div')(({ theme }) => ({
@@ -69,7 +70,8 @@ function Routing() {
         <Route path='/login' element={<Loginpage/>}></Route>
         <Route path='/Progress' element={<Progressbar/>}></Route>
         <Route path ='/Topicscore' element={<TopicScore/>}/>
-        
+        <Route path='/CoursebyScore' element={<CoursebyScore/>}></Route>
+      
       </Route>
 
     </Routes>

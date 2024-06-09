@@ -26,6 +26,7 @@ import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded';
 import MilitaryTechRoundedIcon from '@mui/icons-material/MilitaryTechRounded';
 import LineChart from './LearnerLineChart';
 import LinearProgress from '@mui/material/LinearProgress';
+import { FetchDashboardRequest } from '../../actions/LearnerAction/LearnerdashboardAction';
 
 
 const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
@@ -37,12 +38,23 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
   const [profilePic, setProfilePic] = useState("https://codingyaar.com/wp-content/uploads/bootstrap-profile-card-image.jpg");
   const [progress,setProgress]=useState(60);
   const learnerId = sessionStorage.getItem('UserSessionID'); // Retrieve learner ID from session storage
+  const selectedcount = useSelector((state) => state.learnerdashboard.dashboard);
+  console.log("selectedcount",selectedcount);
+  // const selectedenrollcount = useSelector((state) => state.learnerdashboard.dashboard.enrolledCourseCount);
+  // console.log("selectedenrollcount",selectedenrollcount);
+  const selectedenrollcount = selectedcount.enrolledCourseCount || 0;
+  const selectedinprogresscount = selectedcount.inProgressCount || 0;
+  const selectcompletecount = selectedcount.completedCount || 0;
+ 
+
+
 
   useEffect(() => {
-    dispatch(fetchCoursesRequest(learnerId));
-    fetchuser(learnerId);
+    fetchData((learnerId));
   }, [dispatch]);
 
+
+  
   useEffect(() => {
     if (selectedStream) {
       const streams = selectedStream.split(', ');
@@ -52,10 +64,7 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
     }
   }, [selectedStream, courses]);
 
-  const fetchuser = async (learnerId) => {
-    dispatch(FetchuserDataRequest(learnerId));
-  };
-
+ 
   const [open, setOpen] = useState(false);
 
   const handleOpen = (course) => {
@@ -78,6 +87,21 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
     }
   };
 
+  const fetchData = async (learnerId) =>{
+    try{
+      dispatch(fetchCoursesRequest(learnerId));
+      await
+      dispatch(FetchDashboardRequest(learnerId));
+      await
+      dispatch(FetchuserDataRequest(learnerId));
+    }catch(error)
+    {
+      console.error("Error fetching data",error);
+    }
+    };
+
+
+ 
   const handleEnrollCourse = (courseId) => {
     const maxCourses = 3;
     const learnerCourses = enrolledCourses.filter(course => course.learnerId === learnerId);
@@ -93,8 +117,16 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
       alert('You have already enrolled in this course!');
       return;
     }
-
-    dispatch(enrollRequest(courseId, learnerId));
+    
+    try{
+      dispatch(enrollRequest(courseId, learnerId));
+    }
+    catch(error)
+    {
+      console.error("Enrollment error:", error);
+      alert('Failed to enroll in the course.Please try again later.');
+    }
+    
   };
 
   const isEnrolled = (courseId) => {
@@ -123,10 +155,6 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
     return <div>Loading...</div>;
   }
 
-  const chartData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    data: [3, 2, 2, 6, 7, 4, 5, 6, 7, 8, 9, 10], // Dummy data, replace with real data as needed
-  };
 
   return (
     <div>
@@ -144,7 +172,7 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
                 style={{ display: 'none' }}
                 onChange={handleProfilePicChange}
               />
-              {/* <IconButton
+              <IconButton
                   aria-label="upload picture"
                   component="span"
                   className="position-absolute camera"
@@ -152,7 +180,7 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
                   onClick={() => document.getElementById('profile-pic-upload').click()}
                 >
                   <CameraAltIcon />
-                </IconButton> */}
+                </IconButton>
 
             </div>
 
@@ -166,13 +194,23 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
               </Typography>
 
               {/* <CardMedia className='count-card'> */}
-              <div className='count-inside '>
-                <IconButton className='count-icons' sx={{ marginBottom: 10 }}>
+              <Box className='count-inside ' display="flex" flexDirection="column" alignItems="center">
+              <IconButton className='count-icons' >
                   <SchoolRoundedIcon sx={{ color: indigo[900], fontSize: 40 }} >
-
+                  {/* <Typography component="div" variant="h6" >
+                    {selectedenrollcount}
+                    </Typography> */}
                   </SchoolRoundedIcon>
                 </IconButton>
-              </div>
+                <div className='count-number'>
+                {selectedenrollcount}
+                </div>
+              {/* <Typography component="div" variant="h2" className='count-number' >
+                    {selectedenrollcount}
+                    </Typography> */}
+               
+                
+              </Box>
             </Card>
           </div>
           <div className=' '>
@@ -182,44 +220,62 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
               </Typography>
 
               {/* <CardMedia className='count-card'> */}
-              <div className='count-inside'>
-                <IconButton className='count-icons' sx={{ marginBottom: 10 }}>
+              <Box className='count-inside' display="flex" flexDirection="column" alignItems="center">
+              <IconButton className='count-icons' >
                   <DownloadingRoundedIcon sx={{ color: indigo[900], fontSize: 40 }} >
-
+                  {/* <Typography component="div" variant="h6" >
+                    {selectedcount.inProgressCount}
+                    </Typography> */}
                   </DownloadingRoundedIcon>
                 </IconButton>
-              </div>
+                <div className='count-number'>
+                  {selectedinprogresscount}
+                </div>
+               
+              </Box>
             </Card>
           </div>
-          <div className=' '>
+          <div className='d-block '>
             <Card className='count-card' sx={{ backgroundColor: ' #f0f0f0' }}>
               <Typography component="div" variant="h6" className='count-name' >
                 Completed Course
               </Typography>
 
               {/* <CardMedia className='count-card'> */}
-              <div className='count-inside'>
-                <IconButton className='count-icons' sx={{ marginBottom: 10 }}>
+              <Box className='count-inside ' display="flex" flexDirection="column" alignItems="center">
+              
+              <IconButton className='count-icons' >
                   <MilitaryTechRoundedIcon sx={{ color: indigo[900], fontSize: 40 }} >
-
+                  <Typography component="div" variant="h6" >
+                    {selectedcount.completedCount}
+                    </Typography>
                   </MilitaryTechRoundedIcon>
                 </IconButton>
-              </div>
+              <div className='count-number '>
+                  {selectcompletecount}
+                </div>
+               
+                
+              </Box>
             </Card>
           </div>
            <div className='chart-container' >
           <h3 className='count-recommend'>Score Progress</h3>
-          <LineChart chartData={chartData} />
+         
 
         </div>
         </div>
-
-        <div className=' d-flex'>
+        <div className=''>
+          <h3 className='count-recommend'>Recommended Courses</h3>
+         
+          </div>
+         
+        <div className=' d-flex rec-course'>
           {/* <div className="col-md-7"> */}
-
+         
           {filteredCourses.map((course, index) => (
-            <div className="" key={index}>
-              <h3 className='count-recommend'>Recommended Courses</h3>
+            <div className="rec-course" key={index}>
+             
               <Card className='course-card'>
                 <CardMedia
                   className='course-inside'
@@ -241,6 +297,13 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
                     Category: {course.catagory}
                   </Typography>
                   <Button onClick={() => handleOpen(course)}>View More</Button>
+                  <LinearProgress variant='determinate' value={progress} sx={{height: 10,borderRadius: 5, marginTop:1 }}>
+                    <Typography variant='body2' component="div" sx={{marginTop:1}}>
+                      {progress}%
+
+                    </Typography>
+
+                  </LinearProgress>
                   </div>
                 </CardContent>
                 {/* </Box> */}
@@ -270,37 +333,6 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
               </Modal>
             </div>
           ))}
-          
-          <div className=''>
-          <h3 className='count-recommend'>Ongoing Courses</h3>
-
-            <Card className='course-card' sx={{ backgroundColor: ' #f0f0f0' }}>
-             
-
-              {/* <CardMedia className='count-card'> */}
-              <div className='course-inside'>
-                <IconButton className='count-icons' sx={{ marginBottom: 10 }}>
-                
-                </IconButton>
-               
-              </div>
-              <CardContent className='course-content'>
-              <Typography component="div" variant="h5" >
-                    Course:
-                  </Typography>
-                  <Typography variant="h6" component="div" >
-                    Level: 
-                  </Typography>
-                  <LinearProgress variant='determinate' value={progress} sx={{height: 10,borderRadius: 5, marginTop:1 }}>
-                    <Typography variant='body2' component="div" sx={{marginTop:1}}>
-                      {progress}%
-
-                    </Typography>
-
-                  </LinearProgress>
-                  </CardContent>
-            </Card>
-          </div>
         </div>
       </div>
 

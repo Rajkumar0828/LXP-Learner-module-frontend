@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
     "@cyntler/react-doc-viewer": "^1.15.1",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
@@ -19,6 +20,7 @@
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.3",
+    "framer-motion": "^11.2.10",
     "json-server": "^1.0.0-alpha.23",
     "pdfjs-dist": "^3.4.120",
     "pspdfkit": "^2024.3.2",

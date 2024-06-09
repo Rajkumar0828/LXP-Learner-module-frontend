@@ -66,6 +66,12 @@ const CourseComponent = ({ enrolledCourses, loading, error, search }) => {
     }
 
     dispatch(enrollRequest(courseId, learnerId));
+
+    setTimeout((function() {
+      window.location.reload();
+    
+    }), 10);
+    
   };
 
   const isEnrolled = (courseId) => {

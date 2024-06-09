@@ -263,32 +263,34 @@ export default function Register() {
 
                                     </div>
                                     )}
-                                    <div class="form-group">
-                                        <input type="password" class="form-control" placeholder="Password *" value={userData.password} name="password" onChange={handleChange} disabled={showOTP} />
-                                        <FaInfoCircle className='password-icon Red-icon' onMouseEnter={handlePasswordIconHover} onMouseLeave={handlePasswordLeave} />
+                                    <div style={{marginTop:"-2%"}} class="form-group">
+                                        <input style={{width:"285px"}} type="password" class="form-control" placeholder="Password *" value={userData.password} name="password" onChange={handleChange} disabled={showOTP} />
+                                        <FaInfoCircle style={{marginLeft:"95%",marginTop:"-26%"}} className='password-icon Red-icon' onMouseEnter={handlePasswordIconHover} onMouseLeave={handlePasswordLeave} />
                                         {errors.password && <div className="text-danger">{errors.password}</div>}
                                     </div>
                                     {showPasswordRules && <div className='password-rules'>
-                                        <p className='error-message'>Password must be between 8 to 14 characters,must contain one uppercase,must contain one lowercase,and must contain one special character</p>
+                                        <p style={{marginLeft:"6%",marginTop:"-10%"}} className='error-message'>Password must be between 8 to 14 characters,must contain one uppercase,must contain one lowercase,and must contain one special character</p>
                                     </div>}
 
 
                                     <div class="form-group">
                                         <div class="maxl">
                                             <h6 style={{ marginTop: "25px" }}>Gender:</h6>
-                                            <div style={{ marginLeft: "75px", marginTop: "-43px" }}>
-                                                <label class="gender radio inline">
-                                                    <input type="radio" name="gender" value="male" checked={userData.gender === "male"} onChange={handleChange} disabled={showOTP} />
-                                                    <span> Male </span>
+                                            <div style={{ marginLeft: "75px", marginTop: "-40px"}}>
+                                                <div  style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                <label class="gender radio" style={{ display: 'flex', alignItems: 'center'}}>
+                                                    <input type="radio" name="gender" value="male" checked={userData.gender === "male"} onChange={handleChange} disabled={showOTP}/>
+                                                    <h6>&nbsp;Male</h6>
                                                 </label>
-                                                <label class="gender radio inline">
+                                                <label class="gender radio" style={{ display: 'flex', alignItems: 'center' }}>
                                                     <input type="radio" name="gender" value="female" checked={userData.gender === "female"} onChange={handleChange} disabled={showOTP} />
-                                                    <span> Female </span>
+                                                    <h6>&nbsp;Female</h6>
                                                 </label>
-                                                {/* <label class="gender radio inline">
+                                                 <label class="gender radio" style={{ display: 'flex', alignItems: 'center' }}>
                                                     <input type="radio" name="gender" value="others" checked={userData.gender === "others"} onChange={handleChange} disabled={showOTP}/>
-                                                    <span> Others </span>
-                                                </label> */}
+                                                    <h6>&nbsp;Transgender</h6>
+                                                </label>
+                                                </div>
                                             </div>
                                         </div>
                                         {errors.gender && <div className="text-danger">{errors.gender}</div>}

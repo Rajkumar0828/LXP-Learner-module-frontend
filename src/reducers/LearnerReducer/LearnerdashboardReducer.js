@@ -6,7 +6,7 @@ const initialState = {
     error:null,
 };
 
-const FetchdashboardReducer = (state = initialState,action) => {
+const LearnerdashboardReducer = (state = initialState,action) => {
     switch (action.type)
     {
         case FETCH_DASHBOARD_REQUEST:
@@ -14,11 +14,12 @@ const FetchdashboardReducer = (state = initialState,action) => {
                 ...state,
                 loading:true,
             };
+            
         case FETCH_DASHBOARD_SUCCESS:
             return{
                 ...state,
                 loading:false,
-                userData:action.payload,
+                dashboard:action.payload,
             };
 
         case FETCH_DASHBOARD_FAILURE:
@@ -31,3 +32,5 @@ const FetchdashboardReducer = (state = initialState,action) => {
             return state;
     }
 };
+
+export default  LearnerdashboardReducer;
