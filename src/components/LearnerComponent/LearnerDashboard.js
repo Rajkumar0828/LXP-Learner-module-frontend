@@ -31,6 +31,7 @@ import { LineChart } from '@mui/x-charts';
 import {getUserProfileRequest} from '../../actions/LearnerAction/GetUpdateUserProfileAction';
 import { FetchLearnerProgressRequest } from '../../actions/LearnerAction/FetchLearnerProgressAction';
 import LearnerProgressApi from '../../middleware/LearnerMiddleware/LearnerProgressApi';
+import LearnerScoreProgressBarGraph from './LearnerScoreProgressBarGraph';
 
 
 const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
@@ -60,7 +61,7 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
   console.log("userData",profilePhoto)
 
   const enrollmentId = sessionStorage.getItem("enrolled");
-  console.log("enrollmentId",enrollmentId);
+  console.log("enrolled",enrollmentId);
 
   useEffect(() => {
     fetchData((learnerId));
@@ -200,6 +201,7 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
   return (
     <div>
       <LearnerNavbar />
+      < container fluid style={{marginLeft:2}}>
       <div className='background-container_learner'>
       <div className="container-fluid ">
         <div className=" d-flex allcont">
@@ -301,8 +303,9 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
               </Box>
             </Card>
           </div>
-          <div className='chart-container' >
-            <h3 className='count-recommend'>Score Progress</h3>
+          <div className='chart-container'>
+            <b className='count-scoreprogress' style={{marginLeft:"30%", fontSize:"20px"}}> Score Progress </b>
+            <LearnerScoreProgressBarGraph/>
           
 
           </div>
@@ -338,7 +341,7 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
                     <Button onClick={() => handleOpen(course)}>View More</Button>
                     <LinearProgress 
                       variant='determinate' 
-                      value={"55"} 
+                      value={"75"} 
                       sx={{ height: 10, borderRadius: 5, marginTop: 1 }}
                     >
                       <Typography variant='body2' component="div" sx={{ marginTop: 1 }}>
@@ -378,6 +381,7 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
       </div>
 
     </div>
+    </container>
     </div>
 
   );

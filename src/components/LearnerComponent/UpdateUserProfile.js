@@ -130,7 +130,7 @@ function UpdateUserProfileComponent() {
       <div className="background-container_update">
         <div className="cardcolor_update"   >
           <div className="card-update" >
-            <h1 className="card-updatetitle text-center mb-4" style={{ color: "#27235C", marginRight: '35px' }}>MY Profile</h1>
+            <h1 className="card-updatetitle text-center mb-4" style={{ color: "#27235C", marginRight: '35px' }}>My Profile</h1>
             <div className="row">
               <div className="col-md-2 text-center  mb-4">
                 <Avatar
@@ -229,9 +229,10 @@ function UpdateUserProfileComponent() {
                   <h5>Gender</h5>
                   <select
                     name="gender"
-                    className="form-control_update"
+                    className="form-control_dropdown"
                     value={editInfo.gender}
                     color="#27235C"
+                    type="text"
                     onChange={handleInputChange}
                     disabled={!isEditable}
                   >
@@ -247,13 +248,15 @@ function UpdateUserProfileComponent() {
                     isMulti
                     name="stream"
                     options={options}
+                    type="text"
                     color="#27235C"
-                    className="basic-multi-select"
+                    
+                    className="basic-multi-select_learner"
                     classNamePrefix="stream"
                     placeholder="Choose your stream"
                     value={formatStreamData(editInfo.stream)}
                     onChange={(selectedOption) => handleInputChange({ target: { name: "stream", value: selectedOption } })}
-                    isDisabled={!isEditable}
+                    disabled={!isEditable}
                   />
                 </div>
               </div>

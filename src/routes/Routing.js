@@ -28,6 +28,7 @@ import Progressbar from '../components/LearnerComponent/Progressbar';
 import LearnerScorePage from '..//components/LearnerComponent/LearnerScorePage';
 import TopicScore from '../components/LearnerComponent/TopicScore';
 import CoursebyScore from '../components/LearnerComponent/CoursebyScore';
+import LearnerScoreProgressBarGraph from '../components/LearnerComponent/LearnerScoreProgressBarGraph';
 
 function Routing() {
   // const DrawerHeader = styled('div')(({ theme }) => ({
@@ -71,6 +72,7 @@ function Routing() {
         <Route path='/Progress' element={<Progressbar/>}></Route>
         <Route path ='/Topicscore' element={<TopicScore/>}/>
         <Route path='/CoursebyScore' element={<CoursebyScore/>}></Route>
+        <Route path='/bargraph' element={<LearnerScoreProgressBarGraph/>}></Route>
       
       </Route>
 
