@@ -254,17 +254,17 @@ export default function MiniDrawer() {
             >
               <MenuIcon />
             </IconButton>
-            <a className="navbar-brand" href="Relevantz">
+            <a className="navbar-brand_learner" href="Relevantz">
               <img src={logo} alt="Relevantz Logo" className="navbar-imaged" />
             </a>
-            <div className="navbar-name">
+            <div className="navbar-name_learner">
               <h5>Learning Experience Platform</h5>
             </div>
             {/* <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             Learning Experience Platform
           </Typography> */}
             <Stack direction="row" alignItems="center" spacing={2}>
-              <SearchBar className="search-bar">
+              <SearchBar className="search-bar_learner">
                 <SearchIconWrapper>
                   <SearchIcon />
                 </SearchIconWrapper>

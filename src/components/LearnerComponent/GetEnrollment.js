@@ -265,18 +265,12 @@ const GetEnrollment = () => {
     handleClose();
     window.location.reload();
  
- 
- 
- 
   }
  
   return (
     <div>
  
- 
- 
- 
- 
+
       <LearnerNavbar />
  
  

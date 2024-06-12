@@ -200,8 +200,8 @@ const Logout=()=>{
             >
               <MenuIcon />
             </IconButton>
-            <a className="navbar-brand" href="Relevantz"><img src={logo} alt="Relevantz Logo" className='navbar-imaged' /></a>
-            <div className='navbar-name'><h5>Learning Experience Platform</h5></div>
+            <a className="navbar-brand_learner" href="Relevantz"><img src={logo} alt="Relevantz Logo" className='navbar-imaged' /></a>
+            <div className='navbar-name_learner'><h5>Learning Experience Platform</h5></div>
             <Typography variant="h6" noWrap component="div">
               <Stack direction="row" alignItems="center" className='avatar' spacing={2}>
                 <Avatar {...stringAvatar(`${firstname} ${lastname}`)}
@@ -323,7 +323,7 @@ const Logout=()=>{
           </ListItem>
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main-learner" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
       </Box>
     </Box>

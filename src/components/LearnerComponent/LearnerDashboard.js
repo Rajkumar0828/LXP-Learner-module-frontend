@@ -24,9 +24,13 @@ import { indigo } from '@mui/material/colors';
 import DownloadingRoundedIcon from '@mui/icons-material/DownloadingRounded';
 import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded';
 import MilitaryTechRoundedIcon from '@mui/icons-material/MilitaryTechRounded';
-import LineChart from './LearnerLineChart';
+import { TopicScoreApi } from '../../middleware/LearnerMiddleware/TopicScoreApi';
 import LinearProgress from '@mui/material/LinearProgress';
 import { FetchDashboardRequest } from '../../actions/LearnerAction/LearnerdashboardAction';
+import { LineChart } from '@mui/x-charts';
+import {getUserProfileRequest} from '../../actions/LearnerAction/GetUpdateUserProfileAction';
+import { FetchLearnerProgressRequest } from '../../actions/LearnerAction/FetchLearnerProgressAction';
+import LearnerProgressApi from '../../middleware/LearnerMiddleware/LearnerProgressApi';
 
 
 const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
@@ -36,25 +40,41 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const selectedStream = useSelector((state) => state.fetchlearner.userData.stream);
   const [profilePic, setProfilePic] = useState("https://codingyaar.com/wp-content/uploads/bootstrap-profile-card-image.jpg");
-  const [progress,setProgress]=useState(60);
+  const [progress, setProgress] = useState(60);
+  const [scoreData, setScoreData] = useState([]);
   const learnerId = sessionStorage.getItem('UserSessionID'); // Retrieve learner ID from session storage
   const selectedcount = useSelector((state) => state.learnerdashboard.dashboard);
-  console.log("selectedcount",selectedcount);
+  console.log("selectedcount", selectedcount);
   // const selectedenrollcount = useSelector((state) => state.learnerdashboard.dashboard.enrolledCourseCount);
   // console.log("selectedenrollcount",selectedenrollcount);
   const selectedenrollcount = selectedcount.enrolledCourseCount || 0;
   const selectedinprogresscount = selectedcount.inProgressCount || 0;
   const selectcompletecount = selectedcount.completedCount || 0;
+  const [TopicId] = useState("2df47ffa-3fc0-44c7-b869-c403f5542150");
+  // const [LearnerId] = useState("6bdbab27-c637-48ff-850e-2cf9eb700a40");
  
+  const selectedprogress = useSelector((state) => state);
+  console.log("selectedprogress",selectedprogress);
+  
+  const profilePhoto = sessionStorage.getItem("userData");
+  console.log("userData",profilePhoto)
 
-
+  const enrollmentId = sessionStorage.getItem("enrolled");
+  console.log("enrollmentId",enrollmentId);
 
   useEffect(() => {
     fetchData((learnerId));
+   
   }, [dispatch]);
 
+  useEffect(() => {
+    fetchCourseScores(learnerId,TopicId);
+  },[learnerId,TopicId]);
 
-  
+  useEffect(() => {
+    fetchprogress(learnerId,enrollmentId);
+  },[learnerId,enrollmentId]);
+
   useEffect(() => {
     if (selectedStream) {
       const streams = selectedStream.split(', ');
@@ -64,13 +84,17 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
     }
   }, [selectedStream, courses]);
 
- 
+
   const [open, setOpen] = useState(false);
 
   const handleOpen = (course) => {
     setOpen(true);
     setSelectedCourse(course);
   };
+  const  fetchCourseScores = async (learnerId) => {
+    const scores = await TopicScoreApi(learnerId);
+    setScoreData(scores);
+  }
 
   const handleClose = () => {
     setOpen(false);
@@ -87,21 +111,36 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
     }
   };
 
-  const fetchData = async (learnerId) =>{
-    try{
+  const fetchData = async (learnerId) => {
+    try {
       dispatch(fetchCoursesRequest(learnerId));
       await
-      dispatch(FetchDashboardRequest(learnerId));
+        dispatch(FetchDashboardRequest(learnerId));
       await
-      dispatch(FetchuserDataRequest(learnerId));
-    }catch(error)
-    {
-      console.error("Error fetching data",error);
+        dispatch(FetchuserDataRequest(learnerId));
+      await
+       dispatch(getUserProfileRequest(learnerId));
+      
+     
+    } catch (error) {
+      console.error("Error fetching data", error);
     }
-    };
+  };
+
+  const fetchprogress = async (learnerId,enrollmentId) => {
+    try{
+      console.log("enrole success", learnerId, enrollmentId);
+      const data = await LearnerProgressApi(learnerId,enrollmentId);
+      setProgress(data);
+
+    }
+    catch(error){
+      console.error("Error fetching data", error);
+    }
+  }
 
 
- 
+
   const handleEnrollCourse = (courseId) => {
     const maxCourses = 3;
     const learnerCourses = enrolledCourses.filter(course => course.learnerId === learnerId);
@@ -117,16 +156,15 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
       alert('You have already enrolled in this course!');
       return;
     }
-    
-    try{
+
+    try {
       dispatch(enrollRequest(courseId, learnerId));
     }
-    catch(error)
-    {
+    catch (error) {
       console.error("Enrollment error:", error);
       alert('Failed to enroll in the course.Please try again later.');
     }
-    
+
   };
 
   const isEnrolled = (courseId) => {
@@ -151,20 +189,24 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
     pb: 3,
   };
 
+
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
 
+
   return (
     <div>
       <LearnerNavbar />
+      <div className='background-container_learner'>
       <div className="container-fluid ">
         <div className=" d-flex allcont">
           <div className=" justify-content-center ">
-            <div className="card profile-card"  >
+            <div className=" profile-card"  >
               {/* <div className="position-relative"> */}
-              <img src={profilePic} className="card-img-top rounded-circle mt-3 mx-auto" alt="Profile" style={{ width: '150px', height: '150px' }} />
+              <img src={profilePhoto} className="card-img-top rounded-circle mt-3 mx-auto" alt="Profile" style={{ width: '150px', height: '150px' }} />
               <input
                 type="file"
                 accept="image/*"
@@ -173,14 +215,14 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
                 onChange={handleProfilePicChange}
               />
               <IconButton
-                  aria-label="upload picture"
-                  component="span"
-                  className="position-absolute camera"
-                  style={{ top: '50%', left: '55%' }}
-                  onClick={() => document.getElementById('profile-pic-upload').click()}
-                >
-                  <CameraAltIcon />
-                </IconButton>
+                aria-label="upload picture"
+                component="span"
+                className="position-absolute camera"
+                style={{ top: '50%', left: '55%' }}
+                onClick={() => document.getElementById('profile-pic-upload').click()}
+              >
+                <CameraAltIcon />
+              </IconButton>
 
             </div>
 
@@ -195,21 +237,21 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
 
               {/* <CardMedia className='count-card'> */}
               <Box className='count-inside ' display="flex" flexDirection="column" alignItems="center">
-              <IconButton className='count-icons' >
+                <IconButton className='count-icons' >
                   <SchoolRoundedIcon sx={{ color: indigo[900], fontSize: 40 }} >
-                  {/* <Typography component="div" variant="h6" >
+                    {/* <Typography component="div" variant="h6" >
                     {selectedenrollcount}
                     </Typography> */}
                   </SchoolRoundedIcon>
                 </IconButton>
                 <div className='count-number'>
-                {selectedenrollcount}
+                  {selectedenrollcount}
                 </div>
-              {/* <Typography component="div" variant="h2" className='count-number' >
+                {/* <Typography component="div" variant="h2" className='count-number' >
                     {selectedenrollcount}
                     </Typography> */}
-               
-                
+
+
               </Box>
             </Card>
           </div>
@@ -221,9 +263,9 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
 
               {/* <CardMedia className='count-card'> */}
               <Box className='count-inside' display="flex" flexDirection="column" alignItems="center">
-              <IconButton className='count-icons' >
+                <IconButton className='count-icons' >
                   <DownloadingRoundedIcon sx={{ color: indigo[900], fontSize: 40 }} >
-                  {/* <Typography component="div" variant="h6" >
+                    {/* <Typography component="div" variant="h6" >
                     {selectedcount.inProgressCount}
                     </Typography> */}
                   </DownloadingRoundedIcon>
@@ -231,7 +273,7 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
                 <div className='count-number'>
                   {selectedinprogresscount}
                 </div>
-               
+
               </Box>
             </Card>
           </div>
@@ -243,39 +285,37 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
 
               {/* <CardMedia className='count-card'> */}
               <Box className='count-inside ' display="flex" flexDirection="column" alignItems="center">
-              
-              <IconButton className='count-icons' >
+
+                <IconButton className='count-icons' >
                   <MilitaryTechRoundedIcon sx={{ color: indigo[900], fontSize: 40 }} >
-                  <Typography component="div" variant="h6" >
-                    {selectedcount.completedCount}
+                    <Typography component="div" variant="h6" >
+                      {selectedcount.completedCount}
                     </Typography>
                   </MilitaryTechRoundedIcon>
                 </IconButton>
-              <div className='count-number '>
+                <div className='count-number '>
                   {selectcompletecount}
                 </div>
-               
-                
+
+
               </Box>
             </Card>
           </div>
-           <div className='chart-container' >
-          <h3 className='count-recommend'>Score Progress</h3>
-         
+          <div className='chart-container' >
+            <h3 className='count-recommend'>Score Progress</h3>
+          
 
-        </div>
+          </div>
         </div>
         <div className=''>
           <h3 className='count-recommend'>Recommended Courses</h3>
-         
-          </div>
-         
-        <div className=' d-flex rec-course'>
-          {/* <div className="col-md-7"> */}
-         
+
+
+        </div>
+
+        <div className='d-flex rec-course'>
           {filteredCourses.map((course, index) => (
             <div className="rec-course" key={index}>
-             
               <Card className='course-card'>
                 <CardMedia
                   className='course-inside'
@@ -284,29 +324,29 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
                   image={course.thumbnailimage}
                   alt={course.title}
                 />
-                {/* <Box sx={{ display: 'flex', flexDirection: 'column' }}> */}
-                <CardContent className='course-content' sx={{backgroundColor:'#f0f0f0'}}>
+                <CardContent className='course-content' sx={{ backgroundColor: '#f0f0f0' }}>
                   <div className='course-typo'>
-                  <Typography component="div" variant="h5" className='course-name'>
-                    Course: {course.title}
-                  </Typography>
-                  <Typography variant="h6" component="div" className='course-name'>
-                    Level: {course.level}
-                  </Typography>
-                  <Typography variant="subtitle" component="div" className='course-name'>
-                    Category: {course.catagory}
-                  </Typography>
-                  <Button onClick={() => handleOpen(course)}>View More</Button>
-                  <LinearProgress variant='determinate' value={progress} sx={{height: 10,borderRadius: 5, marginTop:1 }}>
-                    <Typography variant='body2' component="div" sx={{marginTop:1}}>
-                      {progress}%
-
+                    <Typography component="div" variant="h5" className='course-name'>
+                      Course: {course.title}
                     </Typography>
-
-                  </LinearProgress>
+                    <Typography variant="h6" component="div" className='course-name'>
+                      Level: {course.level}
+                    </Typography>
+                    <Typography variant="subtitle1" component="div" className='course-name'>
+                      Category: {course.catagory}
+                    </Typography>
+                    <Button onClick={() => handleOpen(course)}>View More</Button>
+                    <LinearProgress 
+                      variant='determinate' 
+                      value={"55"} 
+                      sx={{ height: 10, borderRadius: 5, marginTop: 1 }}
+                    >
+                      <Typography variant='body2' component="div" sx={{ marginTop: 1 }}>
+                        {"100"}%
+                      </Typography>
+                    </LinearProgress>
                   </div>
                 </CardContent>
-                {/* </Box> */}
               </Card>
               <Modal
                 open={open && selectedCourse && selectedCourse.courseId === course.courseId}
@@ -321,13 +361,14 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
                   </Typography>
                   <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                     <Button onClick={handleClose}>Close</Button>
-                    <button
-                      className="btn btn-lg"
+                    <Button
+                      variant="contained"
+                      color="primary"
                       onClick={() => handleEnrollCourse(course.courseId)}
-                      disabled={course.enrollStatus} // Disable if already enrolled
+                      disabled={isEnrolled(course.courseId)}
                     >
-                      {course.enrollStatus ? 'Enrolled' : 'Enroll'}
-                    </button>
+                      {isEnrolled(course.courseId) ? 'Enrolled' : 'Enroll'}
+                    </Button>
                   </Stack>
                 </Box>
               </Modal>
@@ -336,6 +377,7 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
         </div>
       </div>
 
+    </div>
     </div>
 
   );

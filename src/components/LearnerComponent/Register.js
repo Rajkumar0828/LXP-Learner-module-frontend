@@ -8,10 +8,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import { FaInfoCircle } from 'react-icons/fa';
 import { userEmailRequest } from '../..//actions/LearnerAction/Fetchemail';
 import { userOTPRequest } from '../../actions/LearnerAction/OTPAction';
-
-
-
-
+import Modal from 'react-modal';
 
 
 const options = [
@@ -220,6 +217,10 @@ export default function Register() {
         setErrors({ ...errors, gender: '' });
     };
 
+    const closeModal = () => {
+        setShowModal(false)
+    }
+
     return (
         <div style={{ height: "100vh" }} class="register">
             <div class="row">
@@ -344,6 +345,17 @@ export default function Register() {
                     </div>
                 </div>
             </div>
+            <Modal 
+            isOpen={showModal}
+            onRequestClose={closeModal}
+            contentLabel='Registration Success'
+            className='Modal'
+            overlayClassName='Overlay'
+            >
+                <h2>Registration successfully!</h2>
+                <button onClick={closeModal} >close</button>
+
+            </Modal>
         </div>
     );
 }

@@ -3,7 +3,7 @@ import axios from 'axios';
  
 
  
-export const TopicScoreApi = async (LearnerId, TopicId) => {
+export const TopicScoreApi = async (LearnerId,TopicId) => {
     try {
        
         const response = await axios.get(`http://localhost:5199/api/LearnerAttempt/GetScoreByTopicIdAndLearnerId?TopicId=${TopicId}&LearnerId=${LearnerId}`)

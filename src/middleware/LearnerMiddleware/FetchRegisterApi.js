@@ -10,7 +10,7 @@ const FetchRegisterApi=({dispatch})=>(next)=>async(action)=>{
   if(action.type===FETCH_USER_DATA_REQUEST){
      try{
       console.log("action",action.payload);
-      const response = await axios.get(`http://localhost:5199/lxp/view/learner/${action.payload}`);
+      const response = await axios.get(`http://localhost:5199/lxp/view/getlearner/${action.payload}`);
       console.log("learner",response.data);
       dispatch(FetchuserDataSuccess(response.data.data))
      }catch(error){

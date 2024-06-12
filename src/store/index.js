@@ -41,6 +41,9 @@ import LearnerdashboardReducer from '../reducers/LearnerReducer/Learnerdashboard
 import LearnerdashboardApi from '../middleware/LearnerMiddleware/LearnerdashboardApi';
 import { CoursebyScoreApi } from '../middleware/LearnerMiddleware/CoursebyScoreApi';
 import CoursebyScoreReducer from '../reducers/LearnerReducer/CoursebyScoreReducer';
+import {fetchUserData} from '../middleware/LearnerMiddleware/GetUserProfileMiddleware';
+import LearnerProgressApi from '../middleware/LearnerMiddleware/LearnerProgressApi';
+import LearnerProgressReducer from '../reducers/LearnerReducer/LearnerProgressReducer';
 
 
 
@@ -50,7 +53,7 @@ import CoursebyScoreReducer from '../reducers/LearnerReducer/CoursebyScoreReduce
 
 const rootReducer = combineReducers({
   passwordchangereducer : PasswordChangeReducer,
-  // getUseProfile: GetUserProfileReducer,
+ 
   updateuserprofile:UpdateUserProfileReducer,
   forgotPassword: ForgotPasswordreducer,
   user: userReducer,
@@ -68,7 +71,9 @@ const rootReducer = combineReducers({
   fetchlearner: FetchRegisterReducer,
   unenroll: UnEnrollReducer,
   learnerdashboard:LearnerdashboardReducer,
-  coursebyscore : CoursebyScoreReducer
+  coursebyscore : CoursebyScoreReducer,
+  // courseprogress: LearnerProgressReducer,
+  // getUseProfile: GetUserProfileReducer,
 });
 
 

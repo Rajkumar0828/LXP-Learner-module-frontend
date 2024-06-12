@@ -23,6 +23,7 @@
    border-radius: 50%;
    object-fit: cover;
    margin: 20px auto;
+   margin-top: 25px;
 }
 
 .profile-card .card-body {
@@ -39,6 +40,7 @@
 .allcont
 {
    height: 350px;
+   margin-top: 55px;
 }
 
 /* Count Card Styling */
@@ -46,8 +48,9 @@
    position: relative;
    width: 200px;
    height: 200px;
-   margin: 50px;
-   margin-right: 5px;
+   margin: 20px;
+   margin-top: 50px;
+   margin-right: 2px;
    /* margin-left: 150px; */
  
    /* background: linear-gradient(to right, #f0f0f0 50%, #27235C 50%); */
@@ -179,3 +182,13 @@
    margin-left:1px;
    width: 350px;
 }
+/* .background-container_learner{
+   background-color: #f0f0f0;
+   background-size: cover;
+   background-position: center;
+   height: 100vh;
+  
+   display: flex;
+   justify-content: center;
+   align-items: center;
+} */
