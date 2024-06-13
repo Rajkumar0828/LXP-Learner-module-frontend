@@ -343,7 +343,7 @@ const GetEnrollment = () => {
                   <Button color="primary" onClick={handleClose}>
                     No
                   </Button>
-                  <Button color="primary" onClick={handleUnenroll(course.enrollmentid)} >
+                  <Button color="primary" onClick={handleUnenroll(course.enrollmentId)} >
                     Yes
                   </Button>
                 </DialogActions>

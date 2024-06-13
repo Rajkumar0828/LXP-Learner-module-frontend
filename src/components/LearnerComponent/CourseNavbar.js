@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef ,useEffect} from "react";
 import "../../Styles/Learner/CourseNavbar.css";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -30,12 +30,13 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import logo from "..//../assets/logo.png";
 import LearnerCourse from "../LearnerComponent/LearnerCourse";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 //import { fetchCourses } from '../../middleware/CourseApi';
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import EmojiEventsOutlinedIcon from "@mui/icons-material/EmojiEventsOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import { Link } from "react-router-dom";
+import { FetchuserDataRequest } from "../../actions/LearnerAction/FetchRegisterAction";
 
 const learnerId = sessionStorage.getItem("UserSessionID");
 
@@ -187,15 +188,16 @@ export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [suggestions, setSuggestions] = useState([]);
+  const dispatch = useDispatch();
   const [search, setSearch] = useState(""); // State for search query
   // const [courses, setCourses] = useState([]);
   const courses = useSelector((state) => state.fetchcourse.courses);
   const searchedItemRef = useRef();
 
-  const firstname = useSelector((state) => state.fetchlearner.userData.firstName);
-  console.log("firstname", firstname);
 
+  const firstname = useSelector((state) => state.fetchlearner.userData.firstName);
   const lastname = useSelector((state) => state.fetchlearner.userData.lastName);
+  console.log("firstname", firstname);
   console.log("lastname", lastname);
 
   const handleDrawerOpen = () => {
@@ -214,6 +216,10 @@ export default function MiniDrawer() {
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  useEffect(() => {
+    fetchData((learnerId));
+   
+  }, [dispatch]);
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -228,6 +234,18 @@ export default function MiniDrawer() {
       setSuggestions(filteredSuggestions);
     } else {
       setSuggestions([]);
+    }
+  };
+
+  const fetchData = async (learnerId) => {
+    try {
+     
+        dispatch(FetchuserDataRequest(learnerId));
+    
+      
+     
+    } catch (error) {
+      console.error("Error fetching data", error);
     }
   };
 

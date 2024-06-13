@@ -32,7 +32,8 @@ import { useState, useEffect, } from 'react';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import {Link, useNavigate} from 'react-router-dom';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
+import { FetchuserDataRequest } from '../../actions/LearnerAction/FetchRegisterAction';
 
 const learnerId = sessionStorage.getItem('UserSessionID')
 console.log('learnerid', learnerId);
@@ -149,6 +150,7 @@ console.log("name",name)
   const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const dispatch = useDispatch();
   const firstname = useSelector((state) => state.fetchlearner.userData.firstName);
   console.log("firstname", firstname);
 
@@ -158,6 +160,10 @@ console.log("name",name)
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+  useEffect(() => {
+    fetchData((learnerId));
+   
+  }, [dispatch]);
 
   const handleDrawerClose = () => {
     setOpen(false);
@@ -172,6 +178,19 @@ console.log("name",name)
     setAnchorEl(null);
     
   };
+
+  const fetchData = async (learnerId) => {
+    try {
+     
+        dispatch(FetchuserDataRequest(learnerId));
+     
+      
+     
+    } catch (error) {
+      console.error("Error fetching data", error);
+    }
+  };
+
 
 const Logout=()=>{
   handleMenuClose();

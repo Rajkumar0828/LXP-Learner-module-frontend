@@ -70,7 +70,7 @@ const CourseComponent = ({ enrolledCourses, loading, error, search }) => {
     setTimeout((function() {
       window.location.reload();
     
-    }), 10);
+    }), 100);
     
   };
 

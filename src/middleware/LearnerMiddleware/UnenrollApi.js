@@ -13,8 +13,8 @@ const UnenrollCourseApi=({dispatch})=>(next)=>async(action)=>{
  
  
            
-            // dispatch(fetchenrollsuccess(response.data.data));
-            // console.log('courselist',response.data);
+            dispatch(unenrollSuccess(response.data.data));
+            console.log('courselist',response.data);
         }
         catch(error){
             console.log(error);

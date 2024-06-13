@@ -319,10 +319,11 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
         <div className='d-flex rec-course'>
           {filteredCourses.map((course, index) => (
             <div className="rec-course" key={index}>
+              
               <Card className='course-card'>
                 <CardMedia
                   className='course-inside'
-                  component="img"
+                  component="img" 
                   sx={{ width: 150 }}
                   image={course.thumbnailimage}
                   alt={course.title}
@@ -341,15 +342,16 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
                     <Button onClick={() => handleOpen(course)}>View More</Button>
                     <LinearProgress 
                       variant='determinate' 
-                      value={"75"} 
-                      sx={{ height: 10, borderRadius: 5, marginTop: 1 }}
+                      value={"55"} 
+                      sx={{ height: 10, borderRadius: 5, marginTop: 1 ,Width:'100%',flexGrow:1}}
                     >
-                      <Typography variant='body2' component="div" sx={{ marginTop: 1 }}>
-                        {"100"}%
+                      <Typography variant='body2' component="div" sx={{ marginLeft: 1 }}>
+                        {`${progress}%`}
                       </Typography>
-                    </LinearProgress>
+                    </LinearProgress><p>55%</p>
                   </div>
                 </CardContent>
+                
               </Card>
               <Modal
                 open={open && selectedCourse && selectedCourse.courseId === course.courseId}
