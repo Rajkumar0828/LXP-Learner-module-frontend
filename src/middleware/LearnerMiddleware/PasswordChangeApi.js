@@ -32,7 +32,7 @@ const updatePasswordApi = ({ dispatch }) => (next) => async (action) => {
     catch (error) {
       console.error("api error", error.responce ? error.responce.data.data : error.message);
       dispatch(UpdatePasswordFailure(error.message))
-      alert("password update failed");
+      // alert("password update failed");
     }
  
     

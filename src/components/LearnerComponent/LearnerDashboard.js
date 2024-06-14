@@ -223,7 +223,7 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
                 style={{ top: '50%', left: '55%' }}
                 onClick={() => document.getElementById('profile-pic-upload').click()}
               >
-                <CameraAltIcon />
+                {/* <CameraAltIcon /> */}
               </IconButton>
 
             </div>

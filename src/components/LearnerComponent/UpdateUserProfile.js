@@ -88,6 +88,11 @@ function UpdateUserProfileComponent() {
     } catch (error) {
       console.error("Error updating profile:", error);
       alert("Profile updated successfully");
+      
+    setTimeout((function() {
+      window.location.reload();
+    
+    }), 500);
     }
   };
 

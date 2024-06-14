@@ -379,19 +379,20 @@ function SidebarTopics() {
  
     switch (type) {
       case "PPT":
-        setSelectedComponent(<PDFViewer key={materiallink} material={materiallink} />);
+        
+        setSelectedComponent(<PDFViewer material={materiallink} materialId={materialId} />);
         break;
       case "PDF":
-        setSelectedComponent(<PDFViewer key={materiallink} material={materiallink} />);
+        setSelectedComponent(<PDFViewer material={materiallink} materialId={materialId} />);
         break;
       case "TEXT":
-        setSelectedComponent(<PDFViewer key={materiallink} material={materiallink} />);
+        setSelectedComponent(<PDFViewer material={materiallink} materialId={materialId} />);
         break;
       case "AUDIO":
-        setSelectedComponent(<LearnerAudioViewer key={materiallink} material={materiallink} />);
+        setSelectedComponent(<LearnerAudioViewer material={materiallink} materialId={materialId} />)
         break;
       case "VIDEO":
-        setSelectedComponent(<LearnerVideoViewer key={materiallink} material={materiallink} />);
+        setSelectedComponent(<LearnerVideoViewer material={materiallink} materialId={materialId} />);
         break;
       default:
         break;

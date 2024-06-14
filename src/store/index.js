@@ -47,6 +47,10 @@ import LearnerProgressReducer from '../reducers/LearnerReducer/LearnerProgressRe
 import LearnerScoreProgressBarGraphReducer from '../reducers/LearnerReducer/LearnerScoreProgressBarGraphReducer';
 import LearnerScoreProgressBarGraphApi from '../middleware/LearnerMiddleware/LearnerScoreProgressBarGraphApi';
 
+import addWatchTimeReducer from '../reducers/LearnerReducer/WatchTimeReducer';
+import watchTimeApi from '../middleware/LearnerMiddleware/WatchTimeMiddleware';
+
+
 
 
 
@@ -75,6 +79,7 @@ const rootReducer = combineReducers({
   learnerdashboard:LearnerdashboardReducer,
   coursebyscore : CoursebyScoreReducer,
   scoreProgressBarGraph:LearnerScoreProgressBarGraphReducer,
+  watchTime:addWatchTimeReducer,
   // courseprogress: LearnerProgressReducer,
   // getUseProfile: GetUserProfileReducer,
 });
@@ -83,7 +88,7 @@ const rootReducer = combineReducers({
 const store = createStore(
 
   rootReducer,
-  applyMiddleware(thunk,   apiMiddleware,apiviewallcourse,loginUser,apiDeletecourse,UpdateCourse,RegisterApi,fetchEmailApi,VerifyEmailApi,LearnerGetCourse,LearnerPostEnroll,enrollCourseApi,FetchRegisterApi,updatePasswordApi,updateUserData, UnenrollCourseApi,LearnerdashboardApi,CoursebyScoreApi,LearnerScoreProgressBarGraphApi)
+  applyMiddleware(thunk,   apiMiddleware,apiviewallcourse,loginUser,apiDeletecourse,UpdateCourse,RegisterApi,fetchEmailApi,VerifyEmailApi,LearnerGetCourse,LearnerPostEnroll,enrollCourseApi,FetchRegisterApi,updatePasswordApi,updateUserData, UnenrollCourseApi,LearnerdashboardApi,CoursebyScoreApi,LearnerScoreProgressBarGraphApi,watchTimeApi)
 );
 
 export default store;

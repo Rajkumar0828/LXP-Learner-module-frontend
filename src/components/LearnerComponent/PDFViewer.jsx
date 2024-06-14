@@ -6,18 +6,18 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPdfRequest } from "../../actions/LearnerAction/FetchPdfAction";
 import { Container, Row } from "react-bootstrap";
-
+import { watchTimeRequest } from "../../actions/LearnerAction/WatchTimeAction";
 function PDFViewer(prop) {
   const [error, setError] = useState(null);
-  const {material}= prop;
+  const {material,materialId}= prop;
   const [viewpdf, setViewPdf] = useState(material);
-
+  const dispatch= useDispatch();
   const [fileResponse, setFileResponse] = useState([]);
   const learnerId = sessionStorage.getItem('UserSessionID')
   
- useEffect(()=>{
-console.log(prop);
- },[])
+//  useEffect(()=>{
+// console.log(prop);
+//  },[])
   const newPlugin = defaultLayoutPlugin({
     toolbar: {
       download: {
@@ -28,6 +28,18 @@ console.log(prop);
   useEffect(()=>{
     setViewPdf(material)
   },[material])
+
+
+  useEffect(() => {
+    
+      const learnerprogressdata={
+        materialId: materialId,
+        learnerId: sessionStorage.getItem("UserSessionID"),
+        watchTime: "01:00:00"
+      }
+     dispatch(watchTimeRequest(learnerprogressdata));
+    
+  }, []);
 
   // const pdf = useSelector((state) => state.fetchPdf.material);
 
