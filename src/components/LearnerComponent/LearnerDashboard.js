@@ -316,7 +316,7 @@ const LearnerDashboard = ({ enrolledCourses, loading, error, search }) => {
 
         </div>
 
-        <div className='d-flex rec-course'>
+        <div className='d-flex recommend-container'>
           {filteredCourses.map((course, index) => (
             <div className="rec-course" key={index}>
               
